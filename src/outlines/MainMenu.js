@@ -48,6 +48,12 @@ const MainMenu = () => {
         >
           {t('게시판목록')}
         </a>
+        <a
+          href="/thesis/list"
+          className={classNames({ on: menuCode === 'thesis' })}
+        >
+          {t('논문목록')}
+        </a>
       </Menus>
     )
   );
