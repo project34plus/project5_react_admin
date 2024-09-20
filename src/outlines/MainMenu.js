@@ -54,7 +54,7 @@ const MainMenu = () => {
         >
           {t('논문목록')}
         </a>
-        <a href='/note' className={classNames({on: menuCode === 'note'})}
+        <a href='/note/posts' className={classNames({on: menuCode === 'note'})}
         >
           {t('노트관리')}
         </a>

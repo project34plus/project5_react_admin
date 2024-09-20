@@ -1,18 +1,22 @@
 'use client';
 import React, { useLayoutEffect } from 'react';
 import { getCommonActions } from '@/commons/contexts/CommonContext';
+import NoteRegisterForm from '../components/NoteRegisterForm';
 
-const NoteUpdateContainer = ({ Params }) => {
-    const { setMenuCode, setSubMenuCode } = getCommonActions();
+const NoteUpdateContainer = ({ params }) => {
+  const { setMenuCode, setSubMenuCode } = getCommonActions();
 
-    const { seq } = params;
+  useLayoutEffect(() => {
+    setMenuCode('note');
+    setSubMenuCode('register');
+  }, [setMenuCode, setSubMenuCode]);
 
-    useLayoutEffect(() => {
-        setMenuCode('counseling');
-        setSubMenuCode(seq ? 'update' : 'register');
-    }, [setMenuCode, setSubMenuCode, seq]);
-
-    return <h1>노트 등록/수정...</h1>;
+  return (
+    <div>
+      <h1>노트 등록</h1>
+      <NoteRegisterForm />
+    </div>
+  );
 };
 
 export default React.memo(NoteUpdateContainer);

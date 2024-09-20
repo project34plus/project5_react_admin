@@ -1,10 +1,10 @@
 import AdminOnlyContainer from "@/member/containers/AdminOnlyContainer";
-import NoteListContainer from "@/note/containers/NoteListContainer";
+import NoteUpdateContainer from "@/note/containers/NoteUpdateContainer";
 
 const NoteRegisterPage = ({ searchParams }) => {
     return (
         <AdminOnlyContainer>
-            <NoteListContainer searchParams={searchParams}/>
+            <NoteUpdateContainer searchParams={searchParams}/>
         </AdminOnlyContainer>
     );
 };
