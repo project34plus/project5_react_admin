@@ -1,7 +1,7 @@
 import AdminOnlyContainer from '@/member/containers/AdminOnlyContainer';
 import UpdateContainer from '@/note/containers/UpdateContainer';
 
-const NoteRegisterPage = ({ params }) => {
+const UpdatePage = ({ params }) => {
   return (
     <AdminOnlyContainer>
       <UpdateContainer params={params} />
@@ -9,4 +9,4 @@ const NoteRegisterPage = ({ params }) => {
   );
 };
 
-export default NoteRegisterPage;
+export default UpdatePage;

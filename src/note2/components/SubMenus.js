@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { apiListNotes } from '@/note/apis/apiNote'; // 노트 설정 목록 조회 API 호출을 사용
-import { apiGetNoteInfo } from '@/note/apis/apiNote'; // 노트 설정 한 개 조회 API 호출을 사용
+import { apiListNotes } from '@/note2/apis/apiNote'; // 노트 설정 목록 조회 API 호출을 사용
+import { apiGetNoteInfo } from '@/note2/apis/apiNote'; // 노트 설정 한 개 조회 API 호출을 사용
 
 // 스타일링 적용
 const SubMenuBox = styled.aside`

@@ -1,27 +1,39 @@
-import requestData from '@/commons/libs/requestData';
 import apiRequest from '@/commons/libs/apiRequest';
 
-// 노트 설정 등록
-export const apiRegisterNote = (formData) => {
-  return apiRequest.post('/admin/register', formData);
-};
+export const registerNote = (form) =>
+  new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        const res = await apiRequest('/note/admin/register', 'POST', form);
+        if (res.status === 201) {
+          resolve(true);
+          return;
+        }
 
-// 노트 설정 수정
-export const apiUpdateNote = (nid, formData) => {
-  return apiRequest.patch(`/admin/update/${nid}`, formData);
-};
+        reject(res.data);
+      } catch (err) {
+        reject(err);
+      }
+    })();
+  });
 
-// 노트 설정 목록 조회
-export const apiListNotes = (searchParams) => {
-  return apiRequest.get('/admin/list', { params: searchParams });
-};
+export const updateNote = (form) =>
+  new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        const res = await apiRequest(
+          `/note/admin/update/${form.nid}`,
+          'PATCH',
+          form,
+        );
+        if (res.status === 200) {
+          resolve(true);
+          return;
+        }
 
-// 노트 설정 한 개 조회
-export const apiGetNoteInfo = (nid) => {
-  return apiRequest.get(`/admin/info/${nid}`);
-};
-
-// 노트 설정 삭제
-export const apiDeleteNote = (nid) => {
-  return apiRequest.delete(`/admin/${nid}`);
-};
+        reject(res.data);
+      } catch (err) {
+        reject(err);
+      }
+    })();
+  });
