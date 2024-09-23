@@ -6,7 +6,9 @@ export default function apiRequest(url, method = 'GET', data, headers) {
    * url - http://jsonplaceholder.. https://
    */
   if (!/^http[s]?/i.test(url)) {
-    url = process.env.NEXT_PUBLIC_API_URL + url;
+    url = process.env.NEXT_PUBLIC_API_URL + url; //url = `/api${url}`;
+    console.log('url', url);
+    console.log(process.env.NEXT_PUBLIC_API_URL);
   }
 
   /**
@@ -30,7 +32,12 @@ export default function apiRequest(url, method = 'GET', data, headers) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  if (headers) options.headers = headers;
-
-  return axios(options);
+  if (headers) {
+    options.headers = headers;
+  }
+  try {
+    return axios(options);
+  } catch (err) {
+    console.log('err', err);
+  }
 }
