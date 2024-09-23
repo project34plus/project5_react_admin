@@ -57,7 +57,9 @@ function getSubMenus(menuCode) {
     case 'thesis': //논문관리
       return [];
     default:
-      return [{ code: 'list', name: '나를 찾아 없애보시오', url: '#' },];
+      return [
+        { code: 'list', name: '논문 목록', url: '/thesis/list' },
+      ];
   }
 }
 
