@@ -36,7 +36,7 @@ const Wrapper = styled.div`
   }
 
   .page.on {
-    background: ${({ theme }) => theme.color.navy};
+    background: ${({ theme }) => theme.colors.navy};
     color: #fff;
     border: none;
   }
