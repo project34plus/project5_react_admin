@@ -10,6 +10,10 @@ const requestData = (url, method = 'GET') =>
           return;
         }
 
+        if (url.indexOf('/email-service') !== -1) {
+          resolve(res.data);
+          return;
+        }
         resolve(res.data.data);
       } catch (err) {
         reject(err);

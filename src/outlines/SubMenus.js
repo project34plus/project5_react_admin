@@ -54,8 +54,12 @@ function getSubMenus(menuCode) {
         { code: 'register', name: '게시판 등록', url: '/board/register' },
         { code: 'posts', name: '게시글 관리', url: '/board/posts' },
       ];
-    default:
+    case 'thesis': //논문관리
       return [];
+    default:
+      return [
+        { code: 'list', name: '논문 목록', url: '/thesis/list' },
+      ];
   }
 }
 
