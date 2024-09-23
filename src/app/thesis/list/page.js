@@ -13,4 +13,4 @@ const SearchPage = () => {
   );
 };
 
-export default React.memo(SearchPage);
+export default SearchPage

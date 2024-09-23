@@ -20,3 +20,19 @@ export const apiList = (search) => {
 // 상세 조회
 export const apiGet = (tid) => requestData(`/thesis/admin/info/${tid}`);
 //export const apiGet = (tid) => requestData(`http://localhost:4003/info/${tid}`); //로컬 DB
+
+//승인된논문
+export const apiApproveList =()=> {
+  const url = '/thesis/admin/list/approval'
+  return requestData(url, 'GET')
+}
+//대기중인논문
+export const apiUnapprovalList =()=> {
+  const url = '/thesis/admin/list/unapproval'
+  return requestData(url, 'GET')
+}
+//거절된논문  
+export const apiRejectedList =()=> {
+  const url = '/thesis/admin/list/rejected'
+  return requestData(url, 'GET')
+}
