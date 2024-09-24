@@ -61,7 +61,7 @@ function getSubMenus(menuCode) {
       return [
         { code: 'list', name: '노트 목록', url: '/note/list' },
         { code: 'register', name: '노트 등록', url: '/note/register' },
-        { code: 'posts', name: '노트글 관리', url: '/note/posts' },
+        
 
       ];
   }
