@@ -63,15 +63,10 @@ export const apiRejectedList = (search) => {
   return requestData(url + (qs.length ? `?${qs.join('&')}` : ''));
 };
 
-export const statusList = (search, status) => {
-  search = search ?? {};
+// 논문 버전 로그 조회
+export const apiGetVersionLogs = (tid) => requestData(`/thesis/info/${tid}/versions`);
 
-  const qs = [];
-
-  for (const [k, v] of Object.entries(search)) {
-    qs.push(`${k}=${v}`);
-  }
-
-  const url = `/thesis/admin/list/${status}`; //approval, unapproval, rejected
-  return requestData(url + (qs.length ? `?${qs.join('&')}` : ''));
+// 승인상태 변경 
+export const updateThesis = (tid, thesisData) => {
+  return saveProcess(`/thesis/update/${tid}/submit`, 'PATCH', thesisData);
 };
