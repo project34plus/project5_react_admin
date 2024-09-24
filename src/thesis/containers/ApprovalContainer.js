@@ -5,7 +5,7 @@ import React, {
   useLayoutEffect,
   useCallback,
 } from 'react';
-import ApprovalList from '@/thesis/components/ApprovalList'; // ApprovalList 컴포넌트를 임포트
+import ItemBox from '@/thesis/components/ItemBox';
 import { apiApprovalList } from '../apis/apiInfo';
 import Loading from '@/commons/components/Loading';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,7 @@ import { getCommonActions } from '@/commons/contexts/CommonContext';
 import Container from '@/commons/components/Container';
 import Pagination from '@/commons/components/Pagination';
 import styled from 'styled-components';
+import ListHeader from '../components/ListHeader';
 
 function getQueryString(searchParams) {
   const qs = {};
@@ -56,14 +57,8 @@ const ApprovalContainer = ({ searchParams }) => {
 
   return (
     <Container>
-      <Header>
-        <div className="header-subject">논문 제목</div>
-        <div className="header-poster">작성자</div>
-        <div className="header-createAt">등록일</div>
-        <div className="header-approval">승인여부</div>
-        <div className="header-visible">공개여부</div>
-      </Header>
-      <ApprovalList items={thesisList} />
+      <ListHeader />
+      <ItemBox items={thesisList} />
       {thesisList.length > 0 && (
         <Pagination onClick={onChangePage} pagination={pagination} />
       )}
@@ -72,32 +67,3 @@ const ApprovalContainer = ({ searchParams }) => {
 };
 
 export default ApprovalContainer;
-
-// 상단 헤더 스타일 정의
-const Header = styled.div`
-  display: flex;
-  border-bottom: 2px solid #ccc;
-  font-weight: bold;
-  text-align: center;
-  padding: 10px 0;
-
-  .header-subject {
-    width: 30%;
-  }
-
-  .header-poster {
-    width: 15%;
-  }
-
-  .header-createAt {
-    width: 25%;
-  }
-
-  .header-approval {
-    width: 5%;
-  }
-
-  .header-visible {
-    width: 20%;
-  }
-`;

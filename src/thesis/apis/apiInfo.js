@@ -10,8 +10,8 @@ export const apiList = (search) => {
     qs.push(`${k}=${v}`);
   }
 
- let url = '/thesis/admin/list'; //실서버 DB
-//  let url = 'http://localhost:4003/list'; //로컬 DB
+  let url = '/thesis/admin/list'; //실서버 DB
+  //  let url = 'http://localhost:4003/list'; //로컬 DB
   if (qs.length > 0) url += `?${qs.join('&')}`; //검색 조건이 있을 때
 
   return requestData(url);
@@ -36,12 +36,42 @@ export const apiApprovalList = (search) => {
 };
 
 //대기중인논문
-export const apiUnapprovalList =()=> {
-  const url = '/thesis/admin/list/unapproval'
-  return requestData(url, 'GET')
-}
-//거절된논문  
-export const apiRejectedList =()=> {
-  const url = '/thesis/admin/list/rejected'
-  return requestData(url, 'GET')
-}
+export const apiUnapprovalList = (search) => {
+  search = search ?? {};
+
+  const qs = [];
+
+  for (const [k, v] of Object.entries(search)) {
+    qs.push(`${k}=${v}`);
+  }
+
+  const url = '/thesis/admin/list/unapproval';
+  return requestData(url + (qs.length ? `?${qs.join('&')}` : ''));
+};
+
+//거절된논문
+export const apiRejectedList = (search) => {
+  search = search ?? {};
+
+  const qs = [];
+
+  for (const [k, v] of Object.entries(search)) {
+    qs.push(`${k}=${v}`);
+  }
+
+  const url = '/thesis/admin/list/rejected';
+  return requestData(url + (qs.length ? `?${qs.join('&')}` : ''));
+};
+
+export const statusList = (search, status) => {
+  search = search ?? {};
+
+  const qs = [];
+
+  for (const [k, v] of Object.entries(search)) {
+    qs.push(`${k}=${v}`);
+  }
+
+  const url = `/thesis/admin/list/${status}`; //approval, unapproval, rejected
+  return requestData(url + (qs.length ? `?${qs.join('&')}` : ''));
+};
