@@ -8,12 +8,15 @@ import React, {
 import { getCommonActions } from '@/commons/contexts/CommonContext';
 import { useTranslation } from 'react-i18next';
 import { registerNote, updateNote } from '../apis/apiNote';
+import { useRouter } from 'next/navigation';
 import NoteForm from '../components/NoteForm';
+import { getInfo } from '../apis/apiNote';
 
 const UpdateContainer = ({ params }) => {
   const { setMenuCode, setSubMenuCode, setMainTitle } = getCommonActions();
   const { t } = useTranslation();
   const { nid } = params;
+
   const [form, setForm] = useState({
     active: false,
     locationAfterWriting: 'list',
@@ -23,11 +26,28 @@ const UpdateContainer = ({ params }) => {
   });
   const [errors, setErrors] = useState({});
 
+  const router = useRouter();
+
   useLayoutEffect(() => {
     setMenuCode('note');
     setSubMenuCode(nid ? 'update' : 'register');
     setMainTitle(nid ? t('노트_수정') : t('노트_등록'));
   }, [setMenuCode, setSubMenuCode, setMainTitle, t, nid]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (nid) {
+          const data = await getInfo(nid);
+          if (data) {
+            setForm((form) => ({ ...form, ...data }));
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [nid]);
 
   const onSubmit = useCallback(
     (e) => {
@@ -62,6 +82,10 @@ const UpdateContainer = ({ params }) => {
           form.mode === 'update'
             ? await updateNote(form)
             : await registerNote(form);
+
+          // 등록, 수정이 성공하면 목록으로 이동
+          setForm({});
+          router.replace('/note/list');
         } catch (err) {
           console.error(err);
 
@@ -72,7 +96,7 @@ const UpdateContainer = ({ params }) => {
         }
       })();
     },
-    [t, form],
+    [t, form, router],
   );
 
   const onChange = useCallback((e) => {
