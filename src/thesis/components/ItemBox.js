@@ -37,7 +37,6 @@ const Wrapper = styled.ul`
     .approvalStatus,
     .visible {
       display: flex;
-      justify-content: center; /* 수평 가운데 정렬 */
       align-items: center; /* 수직 가운데 정렬 */
       text-align: center;
     }
@@ -58,15 +57,15 @@ const Wrapper = styled.ul`
     }
 
     .createdAt {
-      width: 20%;
+      width: 10%;
     }
 
     .approvalStatus {
-      width: 15%;
+      width: 10%;
     }
 
     .visible {
-      width: 10%;
+      width: 15%;
     }
 
     a {
