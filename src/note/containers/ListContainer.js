@@ -10,8 +10,7 @@ import { getCommonActions } from '@/commons/contexts/CommonContext';
 import { useTranslation } from 'react-i18next';
 import ListItems from '../components/ListItems';
 import { getList } from '../apis/apiNote';
-import pagination from '@/commons/components/pagination';
-import Pagination from '@/commons/components/pagination';
+import Pagination from '@/commons/components/Pagination';
 
 const ListContainer = ({ searchParams }) => {
   const { setMenuCode, setSubMenuCode, setMainTitle } = getCommonActions();

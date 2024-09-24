@@ -9,15 +9,10 @@ import {
   MdNavigateBefore,
 } from 'react-icons/md';
 
-<<<<<<< HEAD
-const Wrapper = styled.div`
-  display: flex;
-=======
 
 
 const Wrapper = styled.div`
    display: flex;
->>>>>>> master
   max-width: 500px;
   min-width: 100px;
   margin: 60px auto 0;
@@ -41,13 +36,8 @@ const Wrapper = styled.div`
   }
 
   .page.on {
-<<<<<<< HEAD
-    background: ${({ theme }) => theme?.colors?.navy};
-    /*color: #fff; */
-=======
     background: ${({ theme }) => theme.colors.navy};
     color: #fff;
->>>>>>> master
     border: none;
   }
 `;
