@@ -65,8 +65,3 @@ export const apiRejectedList = (search) => {
 
 // 논문 버전 로그 조회
 export const apiGetVersionLogs = (tid) => requestData(`/thesis/info/${tid}/versions`);
-
-// 승인상태 변경 
-export const updateThesis = (tid, thesisData) => {
-  return saveProcess(`/thesis/update/${tid}/submit`, 'PATCH', thesisData);
-};

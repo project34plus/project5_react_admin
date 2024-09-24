@@ -6,6 +6,7 @@ import color from '@/theme/colors';
 import fontSize from '@/theme/fontSizes';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { apiGetVersionLogs } from '../apis/apiInfo';
+import { useRouter } from 'next/navigation';
 
 const { gray, navy } = color;
 
@@ -52,6 +53,14 @@ const Wrapper = styled.div`
     width: 95%;
   }
 
+  .section-title {
+    font-size: ${normal};
+    padding: 10px 0;
+  }
+  .section-1 {
+    margin-top: 20px;
+  }
+
   .info2_wrap {
     margin: 40px 0;
     border-top: 2px solid black;
@@ -76,6 +85,7 @@ const ItemDescription = ({ item }) => {
   const [isOpen, setIsOpen] = useState({});
   const [versionLogs, setVersionLogs] = useState(true);
   const [loadingVersions, setLoadingVersions] = useState(true); // 로딩 상태
+  const router = useRouter();
   console.log(item);
 
   const {
@@ -89,6 +99,7 @@ const ItemDescription = ({ item }) => {
     toc,
     reference,
     publisher,
+    approvalStatus,
     keywords,
     viewCount,
     majorVersion,
@@ -100,6 +111,11 @@ const ItemDescription = ({ item }) => {
       ...prev,
       [section]: !prev[section],
     }));
+  };
+
+  // 수정하기 버튼 클릭 시 경로 이동 처리
+  const handleEditClick = () => {
+    router.push(`/thesis/update/${tid}`);
   };
 
   return (
@@ -119,7 +135,11 @@ const ItemDescription = ({ item }) => {
         <dl>
           <dt>{t('학문_분류')}</dt>
           <dd>
-            {Object.values(_fields)?.[0][0]} | {Object.values(_fields)?.[0][1]}
+            {_fields && Object.keys(_fields).length > 0
+              ? `${Object.values(_fields)?.[0][0]} | ${
+                  Object.values(_fields)?.[0][1]
+                }`
+              : '학문 분류 없음'}
           </dd>
         </dl>
         <dl>
@@ -138,10 +158,43 @@ const ItemDescription = ({ item }) => {
             <dd>{keywords}</dd>
           </dl>
         )}
+        <div className="section-1">
+          <label className="section-title">승인 여부</label>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="approvalStatus"
+                value="APPROVED"
+                checked={approvalStatus === 'APPROVED'}
+              />
+              승인
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="approval"
+                value="REJECTED"
+                checked={approvalStatus === 'REJECTED'}
+              />
+              거절
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="approval"
+                value="PENDING"
+                checked={approvalStatus === 'PENDING'}
+              />
+              대기
+            </label>
+          </div>
+        </div>
       </div>
       <div className="btn-group">
         <button>{t('원문보기')}</button>
         <button>{t('다운로드')}</button>
+        <button onClick={handleEditClick}>{t('수정하기')}</button>
       </div>
       <div className="info2_wrap">
         <dl>
