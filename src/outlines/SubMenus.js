@@ -56,9 +56,13 @@ function getSubMenus(menuCode) {
       ];
     case 'thesis': //논문관리
       return [];
-    default:
+
+    case 'note': // 노트 설정 관리
       return [
-        { code: 'list', name: '논문 목록', url: '/thesis/list' },
+        { code: 'list', name: '노트 목록', url: '/note/list' },
+        { code: 'register', name: '노트 등록', url: '/note/register' },
+        { code: 'posts', name: '노트글 관리', url: '/note/posts' },
+
       ];
   }
 }

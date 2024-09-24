@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { getCommonActions } from '@/commons/contexts/CommonContext';
 import LoginForm from '../components/LoginForm';
 import { StyledWrapper } from '@/commons/components/layouts/StyledWrapper';
-import { apiLogin } from '../apis/apiLogin';
+import { apiLogin, apiUser } from '../apis/apiLogin';
 import { getUserActions } from '@/commons/contexts/UserInfoContext';
 const LoginContainer = ({ searchParams }) => {
   const router = useRouter();
@@ -19,13 +19,7 @@ const LoginContainer = ({ searchParams }) => {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
 
-  const {
-    setIsLogin,
-    setIsAdmin,
-    setUserInfo,
-    setIsCounselor,
-    setIsProfessor,
-  } = getUserActions();
+  const { setIsLogin, setIsAdmin, setUserInfo } = getUserActions();
 
   const onSubmit = useCallback(
     (e) => {
@@ -68,9 +62,7 @@ const LoginContainer = ({ searchParams }) => {
               setIsLogin(true); // 로그인 상태
               setUserInfo(user);
 
-              setIsAdmin(user.userType === 'ADMIN'); // 관리자 여부
-              setIsCounselor(user.userType === 'COUNSELOR');
-              setIsProfessor(user.userType === 'PROFESSOR');
+              setIsAdmin(user.authorities === 'ADMIN'); // 관리자 여부
 
               /**
                * 후속 처리 : 회원 전용 서비스 URL로 이동
@@ -91,17 +83,7 @@ const LoginContainer = ({ searchParams }) => {
           setErrors({ ..._errors });
         });
     },
-    [
-      form,
-      router,
-      searchParams,
-      setIsAdmin,
-      setIsLogin,
-      setUserInfo,
-      setIsCounselor,
-      setIsProfessor,
-      t,
-    ],
+    [form, router, searchParams, setIsAdmin, setIsLogin, setUserInfo, t],
   );
 
   const onChange = useCallback((e) => {
