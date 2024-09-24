@@ -86,12 +86,6 @@ const ThesisListContainer = ({ searchParams }) => {
 
   return (
     <Container>
-      <SearchBox
-        form={form}
-        onChange={onChangeSearch}
-        onSubmit={onSubmitSearch}
-        selectChange={selectChange}
-      />
       <Header>
         <div className="header-subject">논문 제목</div>
         <div className="header-poster">작성자</div>
@@ -124,15 +118,15 @@ const Header = styled.div`
   }
 
   .header-createAt {
-    width: 20%;
+    width: 25%;
   }
 
   .header-approval {
-    width: 15%;
+    width: 5%;
   }
 
   .header-visible {
-    width: 10%;
+    width: 20%;
   }
 `;
 
