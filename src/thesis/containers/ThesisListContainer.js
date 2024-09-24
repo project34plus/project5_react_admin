@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { getCommonActions } from '@/commons/contexts/CommonContext';
 import Container from '@/commons/components/Container.js';
 import styled from 'styled-components';
+import ListHeader from '../components/ListHeader.js';
 
 function getQueryString(searchParams) {
   const qs = {};
@@ -76,7 +77,6 @@ const ThesisListContainer = ({ searchParams }) => {
   /* 페이지 변경 함수 */
   const onChangePage = useCallback((p) => {
     setSearch((search) => ({ ...search, page: p }));
-    window.location.hash = '#root';
   }, []);
 
   /* 로딩 처리 */
@@ -86,19 +86,7 @@ const ThesisListContainer = ({ searchParams }) => {
 
   return (
     <Container>
-      <SearchBox
-        form={form}
-        onChange={onChangeSearch}
-        onSubmit={onSubmitSearch}
-        selectChange={selectChange}
-      />
-      <Header>
-        <div className="header-subject">논문 제목</div>
-        <div className="header-poster">작성자</div>
-        <div className="header-createAt">등록일</div>
-        <div className="header-approval">승인여부</div>
-        <div className="header-visible">공개여부</div>
-      </Header>
+      <ListHeader/>
       <ItemsBox items={items} />
       {items.length > 0 && (
         <Pagination onClick={onChangePage} pagination={pagination} />
@@ -107,34 +95,6 @@ const ThesisListContainer = ({ searchParams }) => {
   );
 };
 
-// 상단 헤더 스타일 정의
-const Header = styled.div`
-  display: flex;
-  border-bottom: 2px solid #ccc;
-  font-weight: bold;
-  text-align: center;
-  padding: 10px 0;
-
-  .header-subject {
-    width: 30%;
-  }
-
-  .header-poster {
-    width: 15%;
-  }
-
-  .header-createAt {
-    width: 20%;
-  }
-
-  .header-approval {
-    width: 15%;
-  }
-
-  .header-visible {
-    width: 10%;
-  }
-`;
 
 
 export default React.memo(ThesisListContainer);
