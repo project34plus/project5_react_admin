@@ -13,6 +13,9 @@ const FormBox = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-left: 30px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 
   dl {
     display: flex;
@@ -41,10 +44,8 @@ const FormBox = styled.form`
     margin-top: 30px;
   }
   .etcblh {
-    width: 5%
+    width: 5%;
   }
-
-  
 `;
 
 const RadioButtonGroup = styled.div`
@@ -190,7 +191,7 @@ const NoteForm = ({ form, errors, onSubmit, onChange, onClick }) => {
           </RadioButtonGroup>
         </dd>
       </dl>
-      <StyledButton type="submit" variant="primary">
+      <StyledButton type="submit" variant="primary" width="120px">
         {form?.mode === 'update' ? t('수정하기') : t('등록하기')}
       </StyledButton>
       <StyledMessage variant="danger">{errors?.global}</StyledMessage>

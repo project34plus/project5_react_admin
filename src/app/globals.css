@@ -1,16 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url(./fonts/Pretendard-Regular.otf);
+}
+
 * { 
   box-sizing: border-box; 
   outline: none; 
-  font-family: "Nanum Gothic", sans-serif; 
+  font-family: 'Pretendard-Regular', sans-serif;
 }
 
 html {
-  font-size: 13px;
+  font-size: 15px;
 }
 
 body { 
   margin: 0;
+  padding: 0;
   color: #000;
 }
 
@@ -32,8 +37,19 @@ img {
   border: 0;
 }
 
+input {
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  box-shadow: none;
+}
+
 .layout-width {
-  max-width: 1200px;
+  max-width: 1400px;
   min-width: 1000px;
   margin: 0 auto;
 }
@@ -44,12 +60,13 @@ img {
 
 main {
   display: flex;
+  width: 1600px;
+  margin: auto;
 }
 
 main > aside {
-  width: 180px;
+  width: 200px;
   margin-right: 20px;
-  min-height: 650px;
 }
 main > .main-content {
   flex-grow: 1;
