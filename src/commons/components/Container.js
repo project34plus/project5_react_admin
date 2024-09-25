@@ -4,7 +4,7 @@ const Container = ({ children }) => {
   const containerStyle = {
     width: '1400px',
     minHeight: '720px',
-    margin: '50px auto',
+    margin: 'auto',
     padding: '20px',
     boxSizing: 'border-box',
   };
