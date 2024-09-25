@@ -27,8 +27,10 @@ const MemberListContainer = ({ searchParams }) => {
       try {
         // getMemberList API 호출하여 회원 목록 가져오기
         const response = await getMemberList(1, 20); // 1페이지, 20개 항목
+        console.log(response);
         setMembers(response.data.items); // 회원 목록을 상태에 저장
       } catch (err) {
+        console.error(err);
         setError(err.message); // 오류 발생 시 오류 메시지 설정
       } finally {
         setLoading(false); // 로딩 상태 종료
@@ -40,6 +42,7 @@ const MemberListContainer = ({ searchParams }) => {
 
   // 로딩 상태 처리
   if (loading) return <div>로딩 중...</div>; // 로딩 중일 때 표시
+
   if (error) return <div>오류 발생: {error}</div>; // 오류 발생 시 메시지 표시
 
   // 회원 목록이 로드되었을 때 MemberList 컴포넌트를 렌더링

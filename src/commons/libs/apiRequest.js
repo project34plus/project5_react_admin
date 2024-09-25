@@ -22,7 +22,7 @@ export default function apiRequest(url, method = 'GET', data, headers) {
     validateStatus: (status) => status < 500, // 500 미만의 응답 코드는 정상 응답
   };
 
-  if (['POST', 'PUT', 'PATCH'].includes(method.toUpperCase()) && data) {
+  if (['POST', 'PUT', 'PATCH'].includes(method?.toUpperCase()) && data) {
     options.data = data;
   }
 
