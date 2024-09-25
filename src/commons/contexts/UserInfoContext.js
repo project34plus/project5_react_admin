@@ -22,7 +22,7 @@ const UserInfoContext = createContext({
 const UserInfoProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   const value = {
     states: { userInfo, isLogin, isAdmin },
