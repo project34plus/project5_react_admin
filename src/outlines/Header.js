@@ -91,7 +91,7 @@ const Header = () => {
               <Icon>
                 <IoHome />
               </Icon>
-              {t('사이트홈')}
+              {t('관리자홈')}
             </a>
             {isLogin ? (
               <>

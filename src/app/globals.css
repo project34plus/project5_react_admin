@@ -49,7 +49,7 @@ input {
 }
 
 .layout-width {
-  max-width: 1200px;
+  max-width: 1400px;
   min-width: 1000px;
   margin: 0 auto;
 }
@@ -60,6 +60,8 @@ input {
 
 main {
   display: flex;
+  width: 1600px;
+  margin: auto;
 }
 
 main > aside {

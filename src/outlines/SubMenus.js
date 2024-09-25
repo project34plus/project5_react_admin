@@ -6,9 +6,12 @@ import Link from 'next/link';
 import { getCommonStates } from '@/commons/contexts/CommonContext';
 
 const SubMenuBox = styled.nav`
+  width: 1350px;
   box-shadow: 2px 2px 10px ${({ theme }) => theme.colors.gray};
   border-radius: 5px;
   display: flex;
+  margin: auto;
+  margin-top: 80px;
 
   a {
     line-height: 55px;

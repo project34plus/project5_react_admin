@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 const Menus = styled.aside`
+  position: relative;
+  margin-top: 230px;
   min-width: 200px;
   background: ${({ theme }) => theme.colors.white};
 
