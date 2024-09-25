@@ -12,3 +12,7 @@ export const uploadThesis = (thesisData) => {
 export const updateThesis = (tid, thesisData) => {
   return saveProcess(`/thesis/update/${tid}/submit`, 'PATCH', thesisData);
 };
+
+export const deleteThesis = (tid) => {
+  return saveProcess(`/thesis/${tid}`, 'DELETE');
+}

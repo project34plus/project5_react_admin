@@ -7,6 +7,7 @@ import fontSize from '@/theme/fontSizes';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { apiGetVersionLogs } from '../apis/apiInfo';
 import { useRouter } from 'next/navigation';
+import ThesisDelete from './ThesisDelete';
 
 const { gray, navy } = color;
 
@@ -83,8 +84,6 @@ const Wrapper = styled.div`
 const ItemDescription = ({ item }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState({});
-  const [versionLogs, setVersionLogs] = useState(true);
-  const [loadingVersions, setLoadingVersions] = useState(true); // 로딩 상태
   const router = useRouter();
   console.log(item);
 
@@ -101,9 +100,6 @@ const ItemDescription = ({ item }) => {
     publisher,
     approvalStatus,
     keywords,
-    viewCount,
-    majorVersion,
-    minorVersion,
   } = item;
 
   const toggleInfo = (section) => {
@@ -116,6 +112,9 @@ const ItemDescription = ({ item }) => {
   // 수정하기 버튼 클릭 시 경로 이동 처리
   const handleEditClick = () => {
     router.push(`/thesis/update/${tid}`);
+  };
+  const handleDeleteClick = () => {
+    router.push(`/thesis/list/rejected`);
   };
 
   return (
@@ -192,9 +191,9 @@ const ItemDescription = ({ item }) => {
         </div>
       </div>
       <div className="btn-group">
-        <button>{t('원문보기')}</button>
         <button>{t('다운로드')}</button>
         <button onClick={handleEditClick}>{t('수정하기')}</button>
+        {approvalStatus === 'REJECTED' && <ThesisDelete tid={tid} />}
       </div>
       <div className="info2_wrap">
         <dl>

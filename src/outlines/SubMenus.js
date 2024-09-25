@@ -58,7 +58,7 @@ function getSubMenus(menuCode) {
         { code: 'posts', name: '게시글 관리', url: '/board/posts' },
       ];
     case 'thesis': //논문관리
-      return [];
+      return [{ code: 'list', name: '등록 관리', url: '/thesis/list' }];
 
     case 'note': // 노트 설정 관리
       return [
