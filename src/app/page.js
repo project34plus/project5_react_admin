@@ -1,3 +1,11 @@
-export default function Home() {
-  return <h1>테스트</h1>;
-}
+import AdminOnlyContainer from '@/member/containers/AdminOnlyContainer';
+import ListContainer from '@/member/containers/ListContainer';
+const MemberListPage = () => {
+  return (
+    <AdminOnlyContainer>
+      <ListContainer />
+    </AdminOnlyContainer>
+  );
+};
+
+export default MemberListPage;
