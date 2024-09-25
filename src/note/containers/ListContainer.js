@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import ListItems from '../components/ListItems';
 import { getList, deleteNote } from '../apis/apiNote';
 import Pagination from '@/commons/components/Pagination';
+import Container from '@/commons/components/Container';
 
 const ListContainer = ({ searchParams }) => {
   const { setMenuCode, setSubMenuCode, setMainTitle } = getCommonActions();
@@ -54,10 +55,12 @@ const ListContainer = ({ searchParams }) => {
 
   return (
     <>
-      <ListItems items={items} onDelete={handleDelete} />
-      {pagination && (
-        <Pagination pagination={pagination} onClick={onPageClick} />
-      )}
+      <Container>
+        <ListItems items={items} onDelete={handleDelete} />
+        {pagination && (
+          <Pagination pagination={pagination} onClick={onPageClick} />
+        )}
+      </Container>
     </>
   );
 };

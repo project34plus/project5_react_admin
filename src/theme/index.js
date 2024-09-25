@@ -3,6 +3,7 @@ import fontSizes from './fontSizes';
 import letterSpacings from './letterSpaces';
 import lineHeights from './lineHeights';
 import space from './space';
+import fontWeight from './fontWeight';
 
 export const theme = {
   space,
@@ -10,4 +11,5 @@ export const theme = {
   letterSpacings,
   lineHeights,
   colors,
+  fontWeight,
 };

@@ -7,13 +7,14 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 const Menus = styled.aside`
-  background: ${({ theme }) => theme.colors.gray};
+  min-width: 200px;
+  background: ${({ theme }) => theme.colors.white};
 
   a {
       display: block;
       background: ${({ theme }) => theme.colors.primary};
       line-height: 60px;
-      font-size: ${({ theme }) => theme.fontSizes.mediumLarge}px;
+      font-size: ${({ theme }) => theme.fontSizes.normal};
       color: ${({ theme }) => theme.colors.white};
       padding: 0 20px;
       display: block;
@@ -22,7 +23,7 @@ const Menus = styled.aside`
         border-top: 1px solid ${({ theme }) => theme.colors.gray};
     }
     a.on {
-      background: ${({ theme }) => theme.colors.black};
+      background: ${({ theme }) => theme.colors.navy};
     }
   }
 `;
@@ -42,12 +43,12 @@ const MainMenu = () => {
         >
           {t('회원관리')}
         </a>
-        <a
+        {/* <a
           href="/board/list"
           className={classNames({ on: menuCode === 'board' })}
         >
           {t('게시판목록')}
-        </a>
+        </a> */}
         <a
           href="/thesis/list"
           className={classNames({ on: menuCode === 'thesis' })}

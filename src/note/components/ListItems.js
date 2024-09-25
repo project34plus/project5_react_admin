@@ -16,13 +16,13 @@ const ListItem = ({ item, className, onDelete }) => {
       <td>
         <div className="buttons">
           <a href={`/note/update/${nid}`}>
-            <StyledButton variant="primary">
-              {t('설정_수정하기')}
+            <StyledButton variant="primary">{t('설정_수정하기')}</StyledButton>
+          </a>
+          <a>
+            <StyledButton variant="danger" onClick={() => onDelete(nid)}>
+              {t('삭제')}
             </StyledButton>
           </a>
-          <StyledButton variant="danger" onClick={() => onDelete(nid)}>
-            {t('삭제')}
-          </StyledButton>
         </div>
       </td>
     </tr>
@@ -38,7 +38,13 @@ const StyledListItem = styled(ListItem)`
   .buttons {
     display: flex;
     gap: 10px;
-    width: 200px;
+    width: 220px;
+    flex: 1;
+  }
+
+  .buttons > a,
+  .buttons > button {
+    flex: 1;
   }
 `;
 

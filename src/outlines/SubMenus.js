@@ -7,14 +7,14 @@ import { getCommonStates } from '@/commons/contexts/CommonContext';
 
 const SubMenuBox = styled.nav`
   box-shadow: 2px 2px 10px ${({ theme }) => theme.colors.gray};
-  height: 55px;
   border-radius: 5px;
-  margin-bottom: 20px;
   display: flex;
+
   a {
     line-height: 55px;
     padding: 0 20px;
-    font-size: ${({ theme }) => theme.fontSizes.medium}px;
+    font-size: ${({ theme }) => theme.fontSizes.normal};
+    border-radius: 5px;
   }
   a.on {
     background: ${({ theme }) => theme.colors.primary};
@@ -61,8 +61,6 @@ function getSubMenus(menuCode) {
       return [
         { code: 'list', name: '노트 목록', url: '/note/list' },
         { code: 'register', name: '노트 등록', url: '/note/register' },
-        
-
       ];
   }
 }

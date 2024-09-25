@@ -41,12 +41,16 @@ const ThesisListContainer = ({ searchParams }) => {
 
   useEffect(() => {
     setLoading(true);
-    apiList(search).then((res) => {
-      console.log('res', res);
-      setItems(res.items || []);
-      setPagination(res.pagination || {});
-      setLoading(false);
-    });
+    (async () => {
+      try {
+        const res = await apiList(search);
+        setItems(res.items || []);
+        setPagination(res.pagination || {});
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
   }, [search]);
 
   /* 검색 관련 함수 */
@@ -86,7 +90,7 @@ const ThesisListContainer = ({ searchParams }) => {
 
   return (
     <Container>
-      <ListHeader/>
+      <ListHeader />
       <ItemsBox items={items} />
       {items.length > 0 && (
         <Pagination onClick={onChangePage} pagination={pagination} />
@@ -94,7 +98,5 @@ const ThesisListContainer = ({ searchParams }) => {
     </Container>
   );
 };
-
-
 
 export default React.memo(ThesisListContainer);
