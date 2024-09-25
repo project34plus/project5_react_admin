@@ -19,7 +19,7 @@ const ListHeader = () => {
       </ButtonContainer>
       <HeaderContent>
         <div className="header-subject">논문 제목</div>
-        <div className="header-poster">작성자</div>
+        <div className="header-poster">저자</div>
         <div className="header-createAt">등록일</div>
         <div className="header-approval">승인여부</div>
         <div className="header-visible">공개여부</div>

@@ -33,11 +33,13 @@ const ThesisListContainer = ({ searchParams }) => {
   const [items, setItems] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(false);
-  const { setMainTitle } = getCommonActions();
+  const { setMainTitle, setMenuCode, setSubMenuCode } = getCommonActions();
 
   useLayoutEffect(() => {
+    setMenuCode('thesis');
+    setSubMenuCode('list');
     setMainTitle(t('논문학술자료'));
-  }, [setMainTitle, t]);
+  }, [setMainTitle, t,setMenuCode,setSubMenuCode]);
 
   useEffect(() => {
     setLoading(true);
