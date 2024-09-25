@@ -12,6 +12,14 @@ const colors = {
   white: '#ffffff',
   text: '#000000',
   navy: '#001E6C',
+  midNavy: '#035397',
+  lightNavy: '#5089C6',
+  lightGrayNavy: '#637A9F',
+  whiteGrayNavy: '#7FA1C3',
+  gray: '#C9D7DD',
+  midgray: '#758694',
+  darkgray: '#31363F',
+  lightgray: '#d0dde9',
 };
 
 export default colors;

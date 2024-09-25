@@ -64,7 +64,7 @@ const ThesisUpdateContainer = ({ params }) => {
     try {
       await updateThesis(tid, formData); // 논문 수정
       alert('논문 수정이 완료되었습니다.');
-      window.location.href = '/thesis/list';
+      window.location.href = `/thesis/view/${tid}`;
     } catch (error) {
       console.error('Error during form submission:', error);
       alert('논문 수정이 실패하였습니다.');
