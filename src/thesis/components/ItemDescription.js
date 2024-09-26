@@ -5,6 +5,7 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { FiDownload, FiEdit } from 'react-icons/fi'; // 아이콘 추가
 import { useRouter } from 'next/navigation';
 import ThesisDelete from './ThesisDelete';
+import { MdDeleteOutline } from 'react-icons/md';
 
 const Wrapper = styled.div`
   word-break: break-all;
@@ -73,6 +74,14 @@ const Wrapper = styled.div`
         background-color: ${({ theme }) => theme.colors.darkNavy};
       }
     }
+    .delete-btn {
+      background-color: ${({ theme }) => theme.colors.navy};
+      color: white;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.darkNavy};
+      }
+    }
   }
 
   .title {
@@ -101,6 +110,7 @@ const Wrapper = styled.div`
     margin-top: 5px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     .arrow {
       position: absolute;
@@ -147,11 +157,6 @@ const ApprovalSection = styled.div`
         display: none;
       }
 
-      &:hover {
-        background-color: ${({ theme }) => theme.colors.gray};
-        border-color: ${({ theme }) => theme.colors.navy};
-      }
-
       label {
         font-size: 0.9rem;
         font-weight: bold;
@@ -179,7 +184,10 @@ const ItemDescription = ({ item }) => {
     publisher,
     approvalStatus,
     keywords,
+    fileInfo,
   } = item;
+
+  console.log('file', fileInfo);
 
   const toggleInfo = (section) => {
     setIsOpen((prev) => ({
@@ -245,16 +253,12 @@ const ItemDescription = ({ item }) => {
               className={`radio-button ${
                 approvalStatus === 'APPROVED' ? 'selected' : ''
               }`}
-              onClick={() => handleInputChange('approvalStatus', 'APPROVED')}
             >
               <input
                 type="radio"
                 name="approvalStatus"
                 value="APPROVED"
                 checked={approvalStatus === 'APPROVED'}
-                onChange={(e) =>
-                  handleInputChange('approvalStatus', 'APPROVED')
-                }
               />
               <label>승인</label>
             </div>
@@ -263,16 +267,12 @@ const ItemDescription = ({ item }) => {
               className={`radio-button ${
                 approvalStatus === 'REJECTED' ? 'selected' : ''
               }`}
-              onClick={() => handleInputChange('approvalStatus', 'REJECTED')}
             >
               <input
                 type="radio"
                 name="approvalStatus"
                 value="REJECTED"
                 checked={approvalStatus === 'REJECTED'}
-                onChange={(e) =>
-                  handleInputChange('approvalStatus', 'REJECTED')
-                }
               />
               <label>거절</label>
             </div>
@@ -281,15 +281,12 @@ const ItemDescription = ({ item }) => {
               className={`radio-button ${
                 approvalStatus === 'PENDING' ? 'selected' : ''
               }`}
-              onClick={() => handleInputChange('approvalStatus', 'PENDING')}
             >
               <input
                 type="radio"
                 name="approvalStatus"
                 value="PENDING"
                 checked={approvalStatus === 'PENDING'}
-                onChange={(e) =>
-                  handleInputChange('approvalStatus', 'PENDING')}
               />
               <label>대기</label>
             </div>
@@ -305,7 +302,10 @@ const ItemDescription = ({ item }) => {
           <FiEdit className="icon" />
           {t('수정하기')}
         </button>
-        {approvalStatus === 'REJECTED' && <ThesisDelete tid={tid} />}
+
+        {approvalStatus === 'REJECTED' && (
+          <ThesisDelete tid={tid} className="delete-btn" />
+        )}
       </div>
       <div className="info2_wrap">
         <dl>

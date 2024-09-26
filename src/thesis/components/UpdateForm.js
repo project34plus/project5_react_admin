@@ -281,6 +281,7 @@ const UpdateForm = ({
               />
               대기
             </label>
+            <br></br>
           </RadioGroup>
         </FormGroup>
 
