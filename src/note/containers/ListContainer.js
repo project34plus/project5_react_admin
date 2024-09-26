@@ -1,5 +1,4 @@
 'use client';
-
 import React, {
   useLayoutEffect,
   useEffect,
@@ -9,8 +8,9 @@ import React, {
 import { getCommonActions } from '@/commons/contexts/CommonContext';
 import { useTranslation } from 'react-i18next';
 import ListItems from '../components/ListItems';
-import { getList } from '../apis/apiNote';
+import { getList, deleteNote } from '../apis/apiNote';
 import Pagination from '@/commons/components/Pagination';
+import Container from '@/commons/components/Container';
 
 const ListContainer = ({ searchParams }) => {
   const { setMenuCode, setSubMenuCode, setMainTitle } = getCommonActions();
@@ -34,8 +34,6 @@ const ListContainer = ({ searchParams }) => {
           setItems(data.items);
           setPagination(data.pagination);
         }
-
-        console.log('data', data);
       } catch (err) {
         console.error(err);
       }
@@ -46,12 +44,23 @@ const ListContainer = ({ searchParams }) => {
     setSearch((search) => ({ ...search, page }));
   }, []);
 
+  const handleDelete = async (nid) => {
+    try {
+      await deleteNote(nid);
+      setItems((prevItems) => prevItems.filter((item) => item.nid !== nid));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
-      <ListItems items={items} />
-      {pagination && (
-        <Pagination pagination={pagination} onClick={onPageClick} />
-      )}
+      <Container>
+        <ListItems items={items} onDelete={handleDelete} />
+        {pagination && (
+          <Pagination pagination={pagination} onClick={onPageClick} />
+        )}
+      </Container>
     </>
   );
 };

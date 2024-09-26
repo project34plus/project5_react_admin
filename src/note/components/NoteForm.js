@@ -10,23 +10,59 @@ import { StyledButton } from '@/commons/components/buttons/StyledButton';
 import { IoIosRadioButtonOn, IoIosRadioButtonOff } from 'react-icons/io';
 
 const FormBox = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-left: 30px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+
   dl {
     display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+
     dt {
-      width: 130px;
-      margin-right: 10px;
+      width: 150px;
+      font-weight: bold;
+      color: #333;
     }
 
     dd {
       flex-grow: 1;
     }
   }
-  dl + dl {
-    margin-top: 5px;
+
+  dl:last-child {
+    border-bottom: none;
   }
 
   button[type='submit'] {
-    margin-top: 20px;
+    align-self: flex-end;
+    margin-top: 30px;
+  }
+  .etcblh {
+    width: 5%;
+  }
+`;
+
+const RadioButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: ${({ active }) => (active ? '#0070f3' : '#666')};
+  }
+
+  svg {
+    font-size: 1.2rem;
+    color: ${({ active }) => (active ? '#0070f3' : '#ddd')};
   }
 `;
 
@@ -65,14 +101,16 @@ const NoteForm = ({ form, errors, onSubmit, onChange, onClick }) => {
       <dl>
         <dt>{t('사용여부')}</dt>
         <dd>
-          <span onClick={() => onClick('active', true)}>
-            {form?.active ? <IoIosRadioButtonOn /> : <IoIosRadioButtonOff />}
-            {t('사용')}
-          </span>
-          <span onClick={() => onClick('active', false)}>
-            {form?.active ? <IoIosRadioButtonOff /> : <IoIosRadioButtonOn />}
-            {t('미사용')}
-          </span>
+          <RadioButtonGroup active={form?.active}>
+            <span onClick={() => onClick('active', true)}>
+              {form?.active ? <IoIosRadioButtonOn /> : <IoIosRadioButtonOff />}
+              {t('사용')}
+            </span>
+            <span onClick={() => onClick('active', false)}>
+              {form?.active ? <IoIosRadioButtonOff /> : <IoIosRadioButtonOn />}
+              {t('미사용')}
+            </span>
+          </RadioButtonGroup>
         </dd>
       </dl>
       <dl>
@@ -110,46 +148,50 @@ const NoteForm = ({ form, errors, onSubmit, onChange, onClick }) => {
       <dl>
         <dt>{t('글_작성_후_이동')}</dt>
         <dd>
-          <span onClick={() => onClick('locationAfterWriting', 'list')}>
-            {form?.locationAfterWriting === 'list' ? (
-              <IoIosRadioButtonOn />
-            ) : (
-              <IoIosRadioButtonOff />
-            )}
-            {t('글목록')}
-          </span>
-          <span onClick={() => onClick('locationAfterWriting', 'view')}>
-            {form?.locationAfterWriting === 'view' ? (
-              <IoIosRadioButtonOn />
-            ) : (
-              <IoIosRadioButtonOff />
-            )}
-            {t('글보기')}
-          </span>
+          <RadioButtonGroup active={form?.locationAfterWriting === 'list'}>
+            <span onClick={() => onClick('locationAfterWriting', 'list')}>
+              {form?.locationAfterWriting === 'list' ? (
+                <IoIosRadioButtonOn />
+              ) : (
+                <IoIosRadioButtonOff />
+              )}
+              {t('글목록')}
+            </span>
+            <span onClick={() => onClick('locationAfterWriting', 'view')}>
+              {form?.locationAfterWriting === 'view' ? (
+                <IoIosRadioButtonOn />
+              ) : (
+                <IoIosRadioButtonOff />
+              )}
+              {t('글보기')}
+            </span>
+          </RadioButtonGroup>
         </dd>
       </dl>
       <dl>
         <dt>{t('스킨')}</dt>
         <dd>
-          <span onClick={() => onClick('skin', 'default')}>
-            {form?.skin === 'default' ? (
-              <IoIosRadioButtonOn />
-            ) : (
-              <IoIosRadioButtonOff />
-            )}
-            {t('기본스킨')}
-          </span>
-          <span onClick={() => onClick('skin', 'gallery')}>
-            {form?.skin === 'gallery' ? (
-              <IoIosRadioButtonOn />
-            ) : (
-              <IoIosRadioButtonOff />
-            )}
-            {t('갤러리스킨')}
-          </span>
+          <RadioButtonGroup active={form?.skin === 'default'}>
+            <span onClick={() => onClick('skin', 'default')}>
+              {form?.skin === 'default' ? (
+                <IoIosRadioButtonOn />
+              ) : (
+                <IoIosRadioButtonOff />
+              )}
+              {t('기본스킨')}
+            </span>
+            <span onClick={() => onClick('skin', 'gallery')}>
+              {form?.skin === 'gallery' ? (
+                <IoIosRadioButtonOn />
+              ) : (
+                <IoIosRadioButtonOff />
+              )}
+              {t('갤러리스킨')}
+            </span>
+          </RadioButtonGroup>
         </dd>
       </dl>
-      <StyledButton type="submit" variant="primary">
+      <StyledButton type="submit" variant="primary" width="120px">
         {form?.mode === 'update' ? t('수정하기') : t('등록하기')}
       </StyledButton>
       <StyledMessage variant="danger">{errors?.global}</StyledMessage>

@@ -56,3 +56,21 @@ export const getList = (search) => {
 
 /* 노트 설정 조회 */
 export const getInfo = (nid) => requestData(`/note/admin/info/${nid}`);
+
+/* 노트 삭제 */
+export const deleteNote = (nid) =>
+  new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        const res = await apiRequest(`/note/admin/${nid}`, 'DELETE');
+        if (res.status === 200) {
+          resolve(true);
+          return;
+        }
+
+        reject(res.data);
+      } catch (err) {
+        reject(err);
+      }
+    })();
+  });
