@@ -58,8 +58,8 @@ const UpdateContainer = ({ params }) => {
       /* 유효성 검사 S */
       // 필수 항목 검증
       const requiredFields = {
-        nid: t('게시판_ID를_입력하세요.'),
-        nname: t('게시판명을_입력하세요.'),
+        nid: t('게시판_ID를_입력하세요'),
+        nname: t('게시판명을_입력하세요'),
       };
 
       for (const [field, message] of Object.entries(requiredFields)) {

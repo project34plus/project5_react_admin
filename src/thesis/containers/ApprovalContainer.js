@@ -35,7 +35,7 @@ const ApprovalContainer = ({ searchParams }) => {
   const { setMainTitle } = getCommonActions();
 
   useLayoutEffect(() => {
-    setMainTitle(t('승인된 논문 목록'));
+    setMainTitle(t('승인된_논문_목록'));
   }, [setMainTitle, t]);
 
   useEffect(() => {
