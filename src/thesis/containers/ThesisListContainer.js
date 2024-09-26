@@ -94,6 +94,7 @@ const ThesisListContainer = ({ searchParams }) => {
     <Container>
       <ListHeader />
       <ItemsBox items={items} />
+      <StyledParagraph>* 승인 거절 상태의 논문만 삭제 가능합니다.</StyledParagraph>
       {items.length > 0 && (
         <Pagination onClick={onChangePage} pagination={pagination} />
       )}
@@ -102,3 +103,9 @@ const ThesisListContainer = ({ searchParams }) => {
 };
 
 export default React.memo(ThesisListContainer);
+
+const StyledParagraph = styled.p`
+  text-align: right; 
+  margin-right: 20px; 
+  color: red; 
+`;
