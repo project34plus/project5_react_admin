@@ -64,7 +64,7 @@ const UnApprovalContainer = ({ searchParams }) => {
           <Pagination onClick={onChangePage} pagination={pagination} />
         </>
       ) : (
-        <NoData>거절 된 논문이 없습니다.</NoData>
+        <NoData>미승인 된 논문이 없습니다.</NoData>
       )}
     </Container>
   );
