@@ -93,7 +93,7 @@ const LoginForm = ({ form, errors, onSubmit, onChange }) => {
           <Icon2>
             <IoPersonSharp />
           </Icon2>
-          {t('관리자 정보입력')}  
+          {t('관리자 정보입력')}
         </Subtitle>
         <dl>
           <dd>
@@ -106,7 +106,7 @@ const LoginForm = ({ form, errors, onSubmit, onChange }) => {
                 name="email"
                 value={form?.email || ''}
                 onChange={onChange}
-                placeholder={t('메일_주소')}
+                placeholder="메일 주소"
               />
             </InputWrapper>
             <StyledMessage variant="danger">{errors?.email}</StyledMessage>
