@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import color from '@/theme/colors';
-import fontSize from '@/theme/fontSizes';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import { apiGetVersionLogs } from '../apis/apiInfo';
+import { FiDownload, FiEdit } from 'react-icons/fi'; // 아이콘 추가
 import { useRouter } from 'next/navigation';
 import ThesisDelete from './ThesisDelete';
-
-const { gray, navy } = color;
-
-const { small, normal, big } = fontSize;
 
 const Wrapper = styled.div`
   word-break: break-all;
@@ -25,39 +18,74 @@ const Wrapper = styled.div`
   dt {
     width: 140px;
     font-weight: bold;
-    font-size: ${normal};
+    font-size: ${({ theme }) => theme.fontSizes.normal};
     margin-bottom: 10px;
   }
 
   dd {
-    font-size: ${normal};
+    font-size: ${({ theme }) => theme.fontSizes.normal};
   }
 
   dl + dl {
-    border-top: 1px solid ${gray};
-  }
-
-  button {
-    width: 100px;
-    height: 40px;
+    border-top: 1px solid ${({ theme }) => theme.colors.gray};
   }
 
   .btn-group {
     display: flex;
-    gap: 30px;
+    gap: 20px;
     margin: 20px 0 0 10px;
-    // justify-content: center;
+
+    button {
+      padding: 10px 25px;
+      font-size: ${({ theme }) => theme.fontSizes.normal};
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.gray};
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .icon {
+        font-size: 1.2rem;
+      }
+    }
+
+    .download-btn {
+      background-color: ${({ theme }) => theme.colors.primary};
+      color: white;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.darkPrimary};
+      }
+    }
+
+    .edit-btn {
+      background-color: ${({ theme }) => theme.colors.navy};
+      color: white;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.darkNavy};
+      }
+    }
   }
+
   .title {
-    font-size: ${big};
+    font-size: ${({ theme }) => theme.fontSizes.big};
     padding: 0 0 15px 15px;
     width: 95%;
   }
 
   .section-title {
-    font-size: ${normal};
+    font-size: ${({ theme }) => theme.fontSizes.normal};
     padding: 10px 0;
   }
+
   .section-1 {
     margin-top: 20px;
   }
@@ -81,11 +109,62 @@ const Wrapper = styled.div`
   }
 `;
 
+const ApprovalSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  margin-left: 10px;
+
+  .approval-label {
+    font-weight: bold;
+    font-size: ${({ theme }) => theme.fontSizes.normal};
+    color: ${({ theme }) => theme.colors.navy};
+    margin-bottom: 10px;
+  }
+
+  .radio-group {
+    display: flex;
+    gap: 15px;
+
+    .radio-button {
+      position: relative;
+      display: inline-block;
+      padding: 5px 15px;
+      background-color: ${({ theme }) => theme.colors.lightGray};
+      border: 2px solid ${({ theme }) => theme.colors.gray};
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+
+      &.selected {
+        background-color: ${({ theme }) => theme.colors.primary};
+        border-color: ${({ theme }) => theme.colors.navy};
+        color: ${({ theme }) => theme.colors.white};
+      }
+
+      input[type='radio'] {
+        display: none;
+      }
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.gray};
+        border-color: ${({ theme }) => theme.colors.navy};
+      }
+
+      label {
+        font-size: 0.9rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+  }
+`;
+
 const ItemDescription = ({ item }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState({});
   const router = useRouter();
-  console.log(item);
 
   const {
     tid,
@@ -109,10 +188,10 @@ const ItemDescription = ({ item }) => {
     }));
   };
 
-  // 수정하기 버튼 클릭 시 경로 이동 처리
   const handleEditClick = () => {
     router.push(`/thesis/update/${tid}`);
   };
+
   const handleDeleteClick = () => {
     router.push(`/thesis/list/rejected`);
   };
@@ -157,42 +236,75 @@ const ItemDescription = ({ item }) => {
             <dd>{keywords}</dd>
           </dl>
         )}
-        <div className="section-1">
-          <label className="section-title">승인 여부</label>
-          <div>
-            <label>
+
+        {/* 승인 여부 섹션 */}
+        <ApprovalSection>
+          <label className="approval-label">승인 여부</label>
+          <div className="radio-group">
+            <div
+              className={`radio-button ${
+                approvalStatus === 'APPROVED' ? 'selected' : ''
+              }`}
+              onClick={() => handleInputChange('approvalStatus', 'APPROVED')}
+            >
               <input
                 type="radio"
                 name="approvalStatus"
                 value="APPROVED"
                 checked={approvalStatus === 'APPROVED'}
+                onChange={(e) =>
+                  handleInputChange('approvalStatus', 'APPROVED')
+                }
               />
-              승인
-            </label>
-            <label>
+              <label>승인</label>
+            </div>
+
+            <div
+              className={`radio-button ${
+                approvalStatus === 'REJECTED' ? 'selected' : ''
+              }`}
+              onClick={() => handleInputChange('approvalStatus', 'REJECTED')}
+            >
               <input
                 type="radio"
-                name="approval"
+                name="approvalStatus"
                 value="REJECTED"
                 checked={approvalStatus === 'REJECTED'}
+                onChange={(e) =>
+                  handleInputChange('approvalStatus', 'REJECTED')
+                }
               />
-              거절
-            </label>
-            <label>
+              <label>거절</label>
+            </div>
+
+            <div
+              className={`radio-button ${
+                approvalStatus === 'PENDING' ? 'selected' : ''
+              }`}
+              onClick={() => handleInputChange('approvalStatus', 'PENDING')}
+            >
               <input
                 type="radio"
-                name="approval"
+                name="approvalStatus"
                 value="PENDING"
                 checked={approvalStatus === 'PENDING'}
+                onChange={(e) =>
+                  handleInputChange('approvalStatus', 'PENDING')}
               />
-              대기
-            </label>
+              <label>대기</label>
+            </div>
           </div>
-        </div>
+        </ApprovalSection>
       </div>
       <div className="btn-group">
-        <button>{t('다운로드')}</button>
-        <button onClick={handleEditClick}>{t('수정하기')}</button>
+        <button className="download-btn">
+          <FiDownload className="icon" />
+          {t('다운로드')}
+        </button>
+        <button className="edit-btn" onClick={handleEditClick}>
+          <FiEdit className="icon" />
+          {t('수정하기')}
+        </button>
         {approvalStatus === 'REJECTED' && <ThesisDelete tid={tid} />}
       </div>
       <div className="info2_wrap">

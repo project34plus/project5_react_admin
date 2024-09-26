@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { styled } from 'styled-components';
-import { StyledButton } from '@/commons/components/buttons/StyledButton';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 // ListItem 컴포넌트
@@ -16,13 +16,17 @@ const ListItem = ({ item, className, onDelete }) => {
       <td>
         <div className="buttons">
           <a href={`/note/update/${nid}`}>
-            <StyledButton variant="primary">{t('설정_수정하기')}</StyledButton>
+            <button className="edit-btn" aria-label={t('설정_수정하기')}>
+              <FaEdit />
+            </button>
           </a>
-          <a>
-            <StyledButton variant="danger" onClick={() => onDelete(nid)}>
-              {t('삭제')}
-            </StyledButton>
-          </a>
+          <button
+            className="delete-btn"
+            aria-label={t('삭제')}
+            onClick={() => onDelete(nid)}
+          >
+            <FaTrashAlt />
+          </button>
         </div>
       </td>
     </tr>
@@ -32,42 +36,72 @@ const ListItem = ({ item, className, onDelete }) => {
 // StyledListItem 컴포넌트에 스타일 추가
 const StyledListItem = styled(ListItem)`
   &:hover {
-    background-color: #f1f1f1; // 마우스 오버 시 배경색
+    background-color: #f0f4f8; // 마우스 오버 시 부드러운 배경색
+    transition: background-color 0.2s ease-in-out;
   }
 
   .buttons {
     display: flex;
-    gap: 10px;
-    width: 220px;
-    flex: 1;
+    justify-content: center;
+    gap: 15px;
   }
 
-  .buttons > a,
-  .buttons > button {
-    flex: 1;
+  .edit-btn,
+  .delete-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #6c757d;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .edit-btn:hover {
+    color: #007bff; // 수정 버튼 호버 시 파란색
+  }
+
+  .delete-btn:hover {
+    color: #dc3545; // 삭제 버튼 호버 시 빨간색
   }
 `;
 
 // StyledTable 컴포넌트에 스타일 추가
 const StyledTable = styled.table`
   width: 100%;
-  border-collapse: collapse; // 테이블 경계 중첩 제거
-  margin-top: 20px; // 테이블 상단 여백
+  border-collapse: separate;
+  border-spacing: 0 10px; // 행 간 간격 추가
+  margin-top: 20px;
 
   th {
-    background-color: #343a40; // 헤더 배경색
-    color: #fff; // 헤더 텍스트 색상
-    padding: 12px; // 헤더 패딩
-    text-align: left; // 텍스트 정렬
+    background-color: #6c757d;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
   }
 
   td {
-    padding: 10px; // 셀 패딩
-    border-bottom: 1px solid #ddd; // 하단 경계선
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // 셀에 그림자 추가
+    transition: box-shadow 0.2s ease-in-out;
   }
 
-  tr:nth-child(even) {
-    background-color: #f9f9f9; // 짝수 행 배경색
+  td:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // 마우스 오버 시 그림자 강화
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  td[colspan='3'] {
+    text-align: center;
+    color: #868e96;
+    padding: 20px;
   }
 `;
 
@@ -90,7 +124,7 @@ const ListItems = ({ items, onDelete }) => {
           ))
         ) : (
           <tr>
-            <td colSpan="3">{t('검색된_노트가_없습니다.')}</td>
+            <td colSpan="3">{t('검색된_노트가_없습니다')}</td>
           </tr>
         )}
       </tbody>
