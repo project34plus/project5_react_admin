@@ -88,8 +88,10 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-const MemberList = ({ members, authoritiesOptions }) => {
+const MemberList = ({ members }) => {
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [editInfo, setEditInfo] = useState({});
+  const authoritiesOptions = ['USER', 'ADMIN'];
 
   const onToggle = (email) => {
     setSelectedMembers((prev) => {
@@ -102,6 +104,16 @@ const MemberList = ({ members, authoritiesOptions }) => {
     });
   };
 
+  const handleEditChange = (email, field, value) => {
+    setEditInfo((prev) => ({
+      ...prev,
+      [email]: {
+        ...(prev[email] || {}),
+        [field]: value,
+      },
+    }));
+  };
+
   const handleEdit = async () => {
     console.log('수정하는 멤버: ', selectedMembers);
     if (selectedMembers.length > 0) {
@@ -111,6 +123,8 @@ const MemberList = ({ members, authoritiesOptions }) => {
           if (member && member.seq) {
             const updatedInfo = {
               seq: member.seq,
+              userName: editInfo[email]?.userName || member.userName,
+              authorities: editInfo[email]?.authorities || member.authorities,
             };
             await updateMemberInfo(updatedInfo);
           }
@@ -133,15 +147,13 @@ const MemberList = ({ members, authoritiesOptions }) => {
         for (const email of selectedMembers) {
           const member = members.find((m) => m.email === email);
           if (member && member.seq) {
-            // seq가 있는지 확인
             await deleteMember(member.seq);
           } else {
             alert(`회원 ${email}의 정보를 찾을 수 없습니다.`);
           }
         }
         alert('선택한 회원이 탈퇴되었습니다.');
-        // 선택된 회원 목록 초기화
-        setSelectedMembers([]);
+        setSelectedMembers([]); // 선택된 회원 목록 초기화
       } catch (error) {
         alert('탈퇴 중 오류가 발생했습니다: ' + error.message);
       }
@@ -184,13 +196,35 @@ const MemberList = ({ members, authoritiesOptions }) => {
                 </Icon3>
               </td>
               <td className="td">{member.email}</td>
-              <td className="td">{member.userName}</td>
+              <td className="td">
+                {' '}
+                <input
+                  type="text"
+                  defaultValue={member.userName}
+                  onChange={(e) =>
+                    handleEditChange(member.email, 'userName', e.target.value)
+                  }
+                />
+              </td>
               <td className="td">{member.mobile}</td>
               <td className="td">{member.birth}</td>
               <td className="td">{member.job}</td>
               <td className="td">{member.gender}</td>
               <td className="td">
-                <Select defaultValue={member.authorities[0]}>
+                <Select
+                  defaultValue={
+                    member.authorities && member.authorities.length > 0
+                      ? member.authorities
+                      : ''
+                  } // 기본값 설정
+                  onChange={(e) =>
+                    handleEditChange(
+                      member.email,
+                      'authorities',
+                      e.target.value,
+                    )
+                  }
+                >
                   {authoritiesOptions.map((option) => (
                     <option key={option} value={option}>
                       {option}

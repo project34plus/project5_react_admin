@@ -10,9 +10,10 @@ import MemberList from '../components/MemberList';
 import Container from '@/commons/components/Container';
 import { getMemberList } from '../apis/apiInfo';
 import Pagination from '@/commons/components/Pagination';
+import { useTranslation } from 'react-i18next';
 
 const MemberListContainer = ({ searchParams }) => {
-  const { setMenuCode, setSubMenuCode } = getCommonActions();
+  const { setMenuCode, setSubMenuCode, setMainTitle } = getCommonActions();
   searchParams = searchParams ?? {};
 
   // 회원 목록 상태
@@ -29,18 +30,24 @@ const MemberListContainer = ({ searchParams }) => {
   // 오류 상태
   const [error, setError] = useState(null);
 
+  const { t } = useTranslation();
+
   // 메뉴 코드 설정
   useLayoutEffect(() => {
     setMenuCode('member'); // 메인 메뉴 'member' 설정
     setSubMenuCode('list'); // 서브 메뉴 'list' 설정
-  }, [setMenuCode, setSubMenuCode]);
+    setMainTitle(t('회원_목록'));
+  }, [setMenuCode, setSubMenuCode, setMainTitle, t]);
 
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         // getMemberList API 호출하여 회원 목록 가져오기
         const data = await getMemberList(search); // 1페이지, 20개 항목
-        setMembers(data.items); // 회원 목록을 상태에 저장
+        const activeMembers = data.items.filter(
+          (member) => member.deletedAt === null,
+        );
+        setMembers(activeMembers); // 회원 목록을 상태에 저장
         setPagination(data.pagination);
       } catch (err) {
         console.error('Error fetching members:', err);
@@ -53,8 +60,6 @@ const MemberListContainer = ({ searchParams }) => {
     fetchMembers();
   }, [search]);
 
-  const authoritiesOptions = ['ADMIN', 'USER'];
-
   const onPageClick = useCallback((page) => {
     setSearch((search) => ({ ...search, page }));
   }, []);
@@ -65,7 +70,7 @@ const MemberListContainer = ({ searchParams }) => {
 
   return (
     <Container>
-      <MemberList members={members} authoritiesOptions={authoritiesOptions} />
+      <MemberList members={members} />
       <Pagination pagination={pagination} onClick={onPageClick} />
     </Container>
   );
