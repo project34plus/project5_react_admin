@@ -35,7 +35,7 @@ const RejectedContainer = ({ searchParams }) => {
   const { setMainTitle } = getCommonActions();
 
   useLayoutEffect(() => {
-    setMainTitle(t('거절된 논문 목록'));
+    setMainTitle(t('거절된_논문_목록'));
   }, [setMainTitle, t]);
 
   useEffect(() => {

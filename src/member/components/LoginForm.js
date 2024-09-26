@@ -93,7 +93,7 @@ const LoginForm = ({ form, errors, onSubmit, onChange }) => {
           <Icon2>
             <IoPersonSharp />
           </Icon2>
-          {t('관리자_정보입력')}
+          {t('관리자 정보입력')}  
         </Subtitle>
         <dl>
           <dd>

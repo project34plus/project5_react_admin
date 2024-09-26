@@ -8,6 +8,7 @@ import Container from '@/commons/components/Container.js';
 import UserInfoContext from '@/commons/contexts/UserInfoContext.js';
 import { useRouter } from 'next/navigation'; //CSR ->router는 SSR
 import View from '../components/View.js';
+import { getFiles } from '@/commons/libs/apiFile.js';
 
 const MyListLoader = () => <List />;
 
@@ -30,6 +31,12 @@ const ThesisViewContainer = ({ params }) => {
     (async () => {
       try {
         const item = await apiGet(tid);
+        if (item) {
+          const files = await getFiles(item.gid);
+          if (files && files.length > 0) {
+            item.fileInfo = files;
+          }
+        }
         setMainTitle(item.title);
         setItem(item);
       } catch (err) {
