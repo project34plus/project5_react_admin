@@ -12,20 +12,22 @@ import { IoIosRadioButtonOn, IoIosRadioButtonOff } from 'react-icons/io';
 const FormBox = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-left: 30px;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  gap: 25px;
+  margin: 50px 30px;
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   dl {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 10px 0;
+    padding: 15px 0;
     border-bottom: 1px solid #eee;
 
     dt {
-      width: 150px;
+      width: 160px;
       font-weight: bold;
       color: #333;
     }
@@ -42,27 +44,51 @@ const FormBox = styled.form`
   button[type='submit'] {
     align-self: flex-end;
     margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    
+    &:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
   }
-  .etcblh {
-    width: 5%;
+
+  input, textarea {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: #0070f3;
+      box-shadow: 0 0 5px rgba(0, 112, 243, 0.5);
+    }
   }
 `;
 
 const RadioButtonGroup = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 15px;
   cursor: pointer;
 
   span {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
     color: ${({ active }) => (active ? '#0070f3' : '#666')};
+    background-color: ${({ active }) => (active ? '#e6f7ff' : 'transparent')};
+
+    &:hover {
+      background-color: ${({ active }) => (active ? '#d0eaff' : '#f2f2f2')};
+    }
   }
 
   svg {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: ${({ active }) => (active ? '#0070f3' : '#ddd')};
+    transition: color 0.3s ease;
   }
 `;
 

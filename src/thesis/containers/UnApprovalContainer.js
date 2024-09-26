@@ -35,7 +35,7 @@ const UnApprovalContainer = ({ searchParams }) => {
   const { setMainTitle } = getCommonActions();
 
   useLayoutEffect(() => {
-    setMainTitle(t('대기중인 논문 목록'));
+    setMainTitle(t('대기중인_논문_목록'));
   }, [setMainTitle, t]);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const UnApprovalContainer = ({ searchParams }) => {
           <Pagination onClick={onChangePage} pagination={pagination} />
         </>
       ) : (
-        <NoData>거절 된 논문이 없습니다.</NoData>
+        <NoData>미승인 된 논문이 없습니다.</NoData>
       )}
     </Container>
   );

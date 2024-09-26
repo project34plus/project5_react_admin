@@ -1,8 +1,10 @@
 import React from 'react';
-import { deleteThesis } from '../apis/apiUpload';
+import { deleteThesis } from '@/thesis/apis/apiUpload';
 import { useRouter } from 'next/navigation';
+import { FiEdit } from 'react-icons/fi';
+import { MdDeleteOutline } from 'react-icons/md';
 
-const ThesisDelete = ({ tid }) => {
+const ThesisDelete = ({ tid, className }) => {
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -19,8 +21,9 @@ const ThesisDelete = ({ tid }) => {
   };
 
   return (
-    <button onClick={handleDelete}>
-      논문 삭제
+    <button className={className} onClick={handleDelete}>
+      <MdDeleteOutline className="icon" />
+      삭제하기
     </button>
   );
 };
