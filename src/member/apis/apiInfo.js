@@ -5,7 +5,7 @@ export const updateMemberInfo = async (form) =>
   saveProcess('/member/admin/update', 'PATCH', form);
 
 // 회원 목록 조회
-export const getMemberList = (page = 1, limit = 20, sopt = 'ALL', skey = '') =>
+export const getMemberList = ({ page, limit, sopt, skey }) =>
   requestData(
     `/member/admin/info/list?page=${page}&limit=${limit}&sopt=${sopt}&skey=${
       skey?.trim() ?? ''
@@ -18,4 +18,4 @@ export const getMemberInfoByEmail = (email) =>
 
 // 회원 탈퇴
 export const deleteMember = (seq) =>
-  requestData(`/member/admin/withdraw/${seq}`, 'PATCH');
+  requestData(`/member/admin/withdraw`, 'PATCH', { seq });

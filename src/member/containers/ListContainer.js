@@ -1,15 +1,29 @@
 'use client';
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useLayoutEffect,
+  useCallback,
+} from 'react';
 import { getCommonActions } from '@/commons/contexts/CommonContext';
-import { getMemberList } from '../apis/apiInfo'; // API 호출 함수 임포트
-import MemberList from '../components/MemberList'; // MemberList 컴포넌트 임포트
+import MemberList from '../components/MemberList';
 import Container from '@/commons/components/Container';
+import { getMemberList } from '../apis/apiInfo';
+import Pagination from '@/commons/components/Pagination';
 
 const MemberListContainer = ({ searchParams }) => {
   const { setMenuCode, setSubMenuCode } = getCommonActions();
+  searchParams = searchParams ?? {};
 
   // 회원 목록 상태
   const [members, setMembers] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  searchParams.page = searchParams?.page ?? 1;
+  searchParams.limit = searchParams?.limit ?? 20;
+  searchParams.sopt = searchParams?.sopt ?? 'ALL';
+
+  const [search, setSearch] = useState(searchParams);
+
   // 로딩 상태
   const [loading, setLoading] = useState(true);
   // 오류 상태
@@ -21,34 +35,38 @@ const MemberListContainer = ({ searchParams }) => {
     setSubMenuCode('list'); // 서브 메뉴 'list' 설정
   }, [setMenuCode, setSubMenuCode]);
 
-  // 회원 목록 데이터를 가져오는 함수
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         // getMemberList API 호출하여 회원 목록 가져오기
-        const response = await getMemberList(1, 20); // 1페이지, 20개 항목
-        console.log(response);
-        setMembers(response.data.items); // 회원 목록을 상태에 저장
+        const data = await getMemberList(search); // 1페이지, 20개 항목
+        setMembers(data.items); // 회원 목록을 상태에 저장
+        setPagination(data.pagination);
       } catch (err) {
-        console.error(err);
-        setError(err.message); // 오류 발생 시 오류 메시지 설정
+        console.error('Error fetching members:', err);
+        setError(err.message);
       } finally {
-        setLoading(false); // 로딩 상태 종료
+        setLoading(false);
       }
     };
 
-    fetchMembers(); // 컴포넌트가 마운트될 때 API 호출
+    fetchMembers();
+  }, [search]);
+
+  const authoritiesOptions = ['ADMIN', 'USER'];
+
+  const onPageClick = useCallback((page) => {
+    setSearch((search) => ({ ...search, page }));
   }, []);
 
-  // 로딩 상태 처리
-  if (loading) return <div>로딩 중...</div>; // 로딩 중일 때 표시
+  if (loading) return <div>로딩 중...</div>;
 
-  if (error) return <div>오류 발생: {error}</div>; // 오류 발생 시 메시지 표시
+  if (error) return <div>오류 발생: {error}</div>;
 
-  // 회원 목록이 로드되었을 때 MemberList 컴포넌트를 렌더링
   return (
     <Container>
-      <MemberList members={members} />
+      <MemberList members={members} authoritiesOptions={authoritiesOptions} />
+      <Pagination pagination={pagination} onClick={onPageClick} />
     </Container>
   );
 };
