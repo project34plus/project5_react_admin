@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { FiDownload, FiEdit } from 'react-icons/fi'; // 아이콘 추가
 import { useRouter } from 'next/navigation';
 import ThesisDelete from './ThesisDelete';
 
@@ -29,15 +30,49 @@ const Wrapper = styled.div`
     border-top: 1px solid ${({ theme }) => theme.colors.gray};
   }
 
-  button {
-    width: 100px;
-    height: 40px;
-  }
-
   .btn-group {
     display: flex;
-    gap: 30px;
+    gap: 20px;
     margin: 20px 0 0 10px;
+
+    button {
+      padding: 10px 25px;
+      font-size: ${({ theme }) => theme.fontSizes.normal};
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.gray};
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .icon {
+        font-size: 1.2rem;
+      }
+    }
+
+    .download-btn {
+      background-color: ${({ theme }) => theme.colors.primary};
+      color: white;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.darkPrimary};
+      }
+    }
+
+    .edit-btn {
+      background-color: ${({ theme }) => theme.colors.navy};
+      color: white;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.darkNavy};
+      }
+    }
   }
 
   .title {
@@ -74,12 +109,12 @@ const Wrapper = styled.div`
   }
 `;
 
-// 승인 여부 섹션 스타일
 const ApprovalSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   margin-top: 20px;
+  margin-left: 10px;
 
   .approval-label {
     font-weight: bold;
@@ -90,12 +125,12 @@ const ApprovalSection = styled.div`
 
   .radio-group {
     display: flex;
-    gap: 20px;
+    gap: 15px;
 
     .radio-button {
       position: relative;
       display: inline-block;
-      padding: 10px 20px;
+      padding: 5px 15px;
       background-color: ${({ theme }) => theme.colors.lightGray};
       border: 2px solid ${({ theme }) => theme.colors.gray};
       border-radius: 20px;
@@ -118,7 +153,7 @@ const ApprovalSection = styled.div`
       }
 
       label {
-        font-size: ${({ theme }) => theme.fontSizes.normal};
+        font-size: 0.9rem;
         font-weight: bold;
         cursor: pointer;
       }
@@ -153,7 +188,6 @@ const ItemDescription = ({ item }) => {
     }));
   };
 
-  // 수정하기 버튼 클릭 시 경로 이동 처리
   const handleEditClick = () => {
     router.push(`/thesis/update/${tid}`);
   };
@@ -255,8 +289,7 @@ const ItemDescription = ({ item }) => {
                 value="PENDING"
                 checked={approvalStatus === 'PENDING'}
                 onChange={(e) =>
-                  handleInputChange('approvalStatus', 'PENDING')
-                }
+                  handleInputChange('approvalStatus', 'PENDING')}
               />
               <label>대기</label>
             </div>
@@ -264,8 +297,14 @@ const ItemDescription = ({ item }) => {
         </ApprovalSection>
       </div>
       <div className="btn-group">
-        <button>{t('다운로드')}</button>
-        <button onClick={handleEditClick}>{t('수정하기')}</button>
+        <button className="download-btn">
+          <FiDownload className="icon" />
+          {t('다운로드')}
+        </button>
+        <button className="edit-btn" onClick={handleEditClick}>
+          <FiEdit className="icon" />
+          {t('수정하기')}
+        </button>
         {approvalStatus === 'REJECTED' && <ThesisDelete tid={tid} />}
       </div>
       <div className="info2_wrap">

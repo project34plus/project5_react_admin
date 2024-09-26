@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const FormWrapper = styled.div`
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0 100px;
   background-color: ${({ theme }) => theme.colors.white};
   padding: 30px 40px;
   border-radius: 10px;
@@ -288,7 +288,7 @@ const UpdateForm = ({
         <FormGroup>
           <SubmitButton type="submit">권한 수정</SubmitButton>
         </FormGroup>
-      </FormContainer>
+      </FormContainer>  
     </FormWrapper>
   );
 };
