@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { IoCheckbox, IoCheckboxOutline, IoPersonSharp } from 'react-icons/io5';
 import { updateMemberInfo, deleteMember } from '../apis/apiInfo';
-
+import { changeAuthority } from '../apis/apiAuthority';
 const Container = styled.div`
   padding: 20px;
   display: flex;
@@ -88,7 +88,7 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-const MemberList = ({ members }) => {
+const MemberList = ({ members, setMembers }) => {
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [editInfo, setEditInfo] = useState({});
   const authoritiesOptions = ['USER', 'ADMIN'];
@@ -104,16 +104,10 @@ const MemberList = ({ members }) => {
     });
   };
 
-  const handleEditChange = (email, field, value) => {
-    setEditInfo((prev) => ({
-      ...prev,
-      [email]: {
-        ...(prev[email] || {}),
-        [field]: value,
-      },
-    }));
-  };
-
+  const handleEditChange = useCallback((email, authorities) => {
+    changeAuthority(email, authorities);
+  }, []);
+  /*
   const handleEdit = async () => {
     console.log('수정하는 멤버: ', selectedMembers);
     if (selectedMembers.length > 0) {
@@ -139,7 +133,7 @@ const MemberList = ({ members }) => {
       alert('수정할 회원을 선택하세요.');
     }
   };
-
+  */
   const handleDelete = async () => {
     console.log('삭제할 멤버: ', selectedMembers); // 삭제할 회원 확인
     if (selectedMembers.length > 0) {
@@ -152,6 +146,10 @@ const MemberList = ({ members }) => {
             alert(`회원 ${email}의 정보를 찾을 수 없습니다.`);
           }
         }
+
+        setMembers((members) =>
+          members.filter((m) => !selectedMembers.includes(m.email)),
+        );
         alert('선택한 회원이 탈퇴되었습니다.');
         setSelectedMembers([]); // 선택된 회원 목록 초기화
       } catch (error) {
@@ -196,16 +194,7 @@ const MemberList = ({ members }) => {
                 </Icon3>
               </td>
               <td className="td">{member.email}</td>
-              <td className="td">
-                {' '}
-                <input
-                  type="text"
-                  defaultValue={member.userName}
-                  onChange={(e) =>
-                    handleEditChange(member.email, 'userName', e.target.value)
-                  }
-                />
-              </td>
+              <td className="td">{member.userName}</td>
               <td className="td">{member.mobile}</td>
               <td className="td">{member.birth}</td>
               <td className="td">{member.job}</td>
@@ -218,11 +207,7 @@ const MemberList = ({ members }) => {
                       : ''
                   } // 기본값 설정
                   onChange={(e) =>
-                    handleEditChange(
-                      member.email,
-                      'authorities',
-                      e.target.value,
-                    )
+                    handleEditChange(member.email, e.target.value)
                   }
                 >
                   {authoritiesOptions.map((option) => (
@@ -237,7 +222,6 @@ const MemberList = ({ members }) => {
         </tbody>
       </Table>
       <ButtonContainer>
-        <Button onClick={handleEdit}>수정하기</Button>
         <Button onClick={handleDelete}>탈퇴하기</Button>
       </ButtonContainer>
     </Container>

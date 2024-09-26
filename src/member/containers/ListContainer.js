@@ -70,7 +70,7 @@ const MemberListContainer = ({ searchParams }) => {
 
   return (
     <Container>
-      <MemberList members={members} />
+      <MemberList members={members} setMembers={setMembers} />
       <Pagination pagination={pagination} onClick={onPageClick} />
     </Container>
   );

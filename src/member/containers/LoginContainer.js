@@ -84,7 +84,7 @@ const LoginContainer = ({ searchParams }) => {
                *
                */
               setForm({});
-              const redirectURL = searchParams.redirectUrl || '/';
+              const redirectURL = searchParams?.redirectUrl || '/';
               router.replace(redirectURL);
             } catch (err) {
               console.error(err);

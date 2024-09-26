@@ -3,9 +3,10 @@ import saveProcess from '@/commons/libs/saveProcess';
 import apiRequest from '@/commons/libs/apiRequest';
 
 // 회원정보 수정
-// export const updateMemberInfo = async (form) =>
-//   saveProcess('/member/admin/update', 'PATCH', form);
+export const updateMemberInfo = async (form) =>
+  saveProcess('/member/admin/update', 'PATCH', form);
 
+/*
 export const updateMemberInfo = (form) =>
   new Promise((resolve, reject) => {
     console.log(form);
@@ -25,6 +26,7 @@ export const updateMemberInfo = (form) =>
         reject(err);
       });
   });
+*/
 
 // 회원 목록 조회
 export const getMemberList = ({ page, limit, sopt, skey }) =>
