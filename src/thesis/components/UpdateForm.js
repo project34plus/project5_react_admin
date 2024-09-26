@@ -3,10 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FormWrapper = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 900px;
+  margin: 0 100px;
   background-color: ${({ theme }) => theme.colors.white};
-  padding: 40px 50px;
+  padding: 30px 40px;
   border-radius: 10px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.6);
 `;
@@ -108,8 +108,10 @@ const UpdateForm = ({
   isEditMode,
 }) => {
   return (
+
     <FormWrapper>
       <Heading>논문 관리</Heading>
+      <h2>※관리자는 공개여부와 승인여부만 수정 가능합니다.※</h2>
       <FormContainer onSubmit={handleSubmit}>
         {/* 제목 입력 필드 */}
         <FormGroup>
@@ -286,7 +288,7 @@ const UpdateForm = ({
         <FormGroup>
           <SubmitButton type="submit">권한 수정</SubmitButton>
         </FormGroup>
-      </FormContainer>
+      </FormContainer>  
     </FormWrapper>
   );
 };
