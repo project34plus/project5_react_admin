@@ -107,33 +107,7 @@ const MemberList = ({ members, setMembers }) => {
   const handleEditChange = useCallback((email, authorities) => {
     changeAuthority(email, authorities);
   }, []);
-  /*
-  const handleEdit = async () => {
-    console.log('수정하는 멤버: ', selectedMembers);
-    if (selectedMembers.length > 0) {
-      try {
-        for (const email of selectedMembers) {
-          const member = members.find((m) => m.email === email);
-          if (member && member.seq) {
-            const updatedInfo = {
-              seq: member.seq,
-              userName: editInfo[email]?.userName || member.userName,
-              authorities: editInfo[email]?.authorities || member.authorities,
-            };
-            await updateMemberInfo(updatedInfo);
-          }
-        }
-        alert('회원 정보가 수정되었습니다.');
-        // 선택된 회원 목록 초기화
-        setSelectedMembers([]);
-      } catch (error) {
-        alert('수정 중 오류가 발생했습니다: ' + error.message);
-      }
-    } else {
-      alert('수정할 회원을 선택하세요.');
-    }
-  };
-  */
+ 
   const handleDelete = async () => {
     console.log('삭제할 멤버: ', selectedMembers); // 삭제할 회원 확인
     if (selectedMembers.length > 0) {

@@ -20,7 +20,7 @@ const MemberListContainer = ({ searchParams }) => {
   const [members, setMembers] = useState([]);
   const [pagination, setPagination] = useState(null);
   searchParams.page = searchParams?.page ?? 1;
-  searchParams.limit = searchParams?.limit ?? 20;
+  searchParams.limit = searchParams?.limit ?? 10;
   searchParams.sopt = searchParams?.sopt ?? 'ALL';
 
   const [search, setSearch] = useState(searchParams);
