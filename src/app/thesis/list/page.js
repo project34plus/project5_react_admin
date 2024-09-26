@@ -7,9 +7,9 @@ import AdminOnlyContainer from '@/member/containers/AdminOnlyContainer';
 
 const SearchPage = () => {
   return (
-    <Container>
+    <AdminOnlyContainer>
       <ThesisListContainer />
-    </Container>
+    </AdminOnlyContainer>
   );
 };
 

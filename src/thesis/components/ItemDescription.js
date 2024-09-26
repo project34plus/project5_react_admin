@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import color from '@/theme/colors';
 import fontSize from '@/theme/fontSizes';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { apiGetVersionLogs } from '../apis/apiInfo';
+import { useRouter } from 'next/navigation';
+import ThesisDelete from './ThesisDelete';
 
 const { gray, navy } = color;
 
-const { small, normal } = fontSize;
+const { small, normal, big } = fontSize;
 
 const Wrapper = styled.div`
   word-break: break-all;
+  position: relative;
 
   dl {
     padding: 5px 15px;
@@ -22,7 +26,7 @@ const Wrapper = styled.div`
     width: 140px;
     font-weight: bold;
     font-size: ${normal};
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
 
   dd {
@@ -40,12 +44,26 @@ const Wrapper = styled.div`
 
   .btn-group {
     display: flex;
-    gap: 10px;
-    margin-top: 15px;
+    gap: 30px;
+    margin: 20px 0 0 10px;
+    // justify-content: center;
+  }
+  .title {
+    font-size: ${big};
+    padding: 0 0 15px 15px;
+    width: 95%;
+  }
+
+  .section-title {
+    font-size: ${normal};
+    padding: 10px 0;
+  }
+  .section-1 {
+    margin-top: 20px;
   }
 
   .info2_wrap {
-    margin: 40px 0 30px 0;
+    margin: 40px 0;
     border-top: 2px solid black;
   }
 
@@ -66,6 +84,7 @@ const Wrapper = styled.div`
 const ItemDescription = ({ item }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState({});
+  const router = useRouter();
   console.log(item);
 
   const {
@@ -79,8 +98,8 @@ const ItemDescription = ({ item }) => {
     toc,
     reference,
     publisher,
+    approvalStatus,
     keywords,
-    viewCount,
   } = item;
 
   const toggleInfo = (section) => {
@@ -90,16 +109,17 @@ const ItemDescription = ({ item }) => {
     }));
   };
 
+  // 수정하기 버튼 클릭 시 경로 이동 처리
+  const handleEditClick = () => {
+    router.push(`/thesis/update/${tid}`);
+  };
+  const handleDeleteClick = () => {
+    router.push(`/thesis/list/rejected`);
+  };
+
   return (
     <Wrapper>
-      <dl>
-        <dt>{t('조회수')}</dt>
-        <dd>{viewCount}</dd>
-      </dl>
-      <dl>
-        <dt>{t('논문명')}</dt>
-        <dd>{title}</dd>
-      </dl>
+      <div className="title">{title}</div>
       <div className="info_wrap">
         <dl>
           <dt>{t('저자')}</dt>
@@ -111,16 +131,16 @@ const ItemDescription = ({ item }) => {
             <dd>{contributor}</dd>
           </dl>
         )}
-        {/*분류명이 필수 입력값이 되면 다시 수정할 것*/}
-        {_fields && (
-          <dl>
-            <dt>{t('학문_분류')}</dt>
-            <dd>
-              {Object.values(_fields)?.[0][0]} |{' '}
-              {Object.values(_fields)?.[0][1]}
-            </dd>
-          </dl>
-        )}
+        <dl>
+          <dt>{t('학문_분류')}</dt>
+          <dd>
+            {_fields && Object.keys(_fields).length > 0
+              ? `${Object.values(_fields)?.[0][0]} | ${
+                  Object.values(_fields)?.[0][1]
+                }`
+              : '학문 분류 없음'}
+          </dd>
+        </dl>
         <dl>
           <dt>{t('발행기관')}</dt>
           <dd>{publisher}</dd>
@@ -137,10 +157,43 @@ const ItemDescription = ({ item }) => {
             <dd>{keywords}</dd>
           </dl>
         )}
+        <div className="section-1">
+          <label className="section-title">승인 여부</label>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="approvalStatus"
+                value="APPROVED"
+                checked={approvalStatus === 'APPROVED'}
+              />
+              승인
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="approval"
+                value="REJECTED"
+                checked={approvalStatus === 'REJECTED'}
+              />
+              거절
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="approval"
+                value="PENDING"
+                checked={approvalStatus === 'PENDING'}
+              />
+              대기
+            </label>
+          </div>
+        </div>
       </div>
       <div className="btn-group">
-        <button>{t('원문보기')}</button>
         <button>{t('다운로드')}</button>
+        <button onClick={handleEditClick}>{t('수정하기')}</button>
+        {approvalStatus === 'REJECTED' && <ThesisDelete tid={tid} />}
       </div>
       <div className="info2_wrap">
         <dl>
@@ -150,7 +203,9 @@ const ItemDescription = ({ item }) => {
               {isOpen['abstract'] ? <IoIosArrowUp /> : <IoIosArrowDown />}
             </span>
           </dt>
-          {isOpen['abstract'] && <dd>{thAbstract}</dd>}
+          {isOpen['abstract'] && (
+            <dd>{thAbstract ? thAbstract : t('내용이_없습니다')}</dd>
+          )}
         </dl>
         <dl>
           <dt onClick={() => toggleInfo('toc')} className="toggle">
@@ -159,7 +214,7 @@ const ItemDescription = ({ item }) => {
               {isOpen['toc'] ? <IoIosArrowUp /> : <IoIosArrowDown />}
             </span>
           </dt>
-          {isOpen['toc'] && <dd>{toc ? toc : 'no data'}</dd>}
+          {isOpen['toc'] && <dd>{toc ? toc : t('내용이_없습니다')}</dd>}
         </dl>
         <dl>
           <dt onClick={() => toggleInfo('reference')} className="toggle">
@@ -169,7 +224,7 @@ const ItemDescription = ({ item }) => {
             </span>
           </dt>
           {isOpen['reference'] && (
-            <dd>{reference ? reference : '내용이 없습니다'}</dd>
+            <dd>{reference ? reference : t('내용이_없습니다')}</dd>
           )}
         </dl>
       </div>

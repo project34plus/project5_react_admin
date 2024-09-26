@@ -6,15 +6,18 @@ import Link from 'next/link';
 import { getCommonStates } from '@/commons/contexts/CommonContext';
 
 const SubMenuBox = styled.nav`
+  width: 1350px;
   box-shadow: 2px 2px 10px ${({ theme }) => theme.colors.gray};
-  height: 55px;
   border-radius: 5px;
-  margin-bottom: 20px;
   display: flex;
+  margin: auto;
+  margin-top: 80px;
+
   a {
     line-height: 55px;
     padding: 0 20px;
-    font-size: ${({ theme }) => theme.fontSizes.medium}px;
+    font-size: ${({ theme }) => theme.fontSizes.normal};
+    border-radius: 5px;
   }
   a.on {
     background: ${({ theme }) => theme.colors.primary};
@@ -55,10 +58,12 @@ function getSubMenus(menuCode) {
         { code: 'posts', name: '게시글 관리', url: '/board/posts' },
       ];
     case 'thesis': //논문관리
-      return [];
-    default:
+      return [{ code: 'list', name: '등록 관리', url: '/thesis/list' }];
+
+    case 'note': // 노트 설정 관리
       return [
-        { code: 'list', name: '논문 목록', url: '/thesis/list' },
+        { code: 'list', name: '노트 목록', url: '/note/list' },
+        { code: 'register', name: '노트 등록', url: '/note/register' },
       ];
   }
 }

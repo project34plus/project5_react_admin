@@ -9,6 +9,7 @@ import MainMenu from '@/outlines/MainMenu';
 import SubMenus from '@/outlines/SubMenus';
 import { theme } from '../theme';
 import '../i18n';
+import Footer from '@/outlines/Footer';
 
 import './globals.css';
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
                   {children}
                 </section>
               </main>
+              <Footer />
             </body>
           </html>
         </CommonProvider>

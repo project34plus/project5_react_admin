@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { getCommonActions } from '@/commons/contexts/CommonContext';
 import LoginForm from '../components/LoginForm';
-import { StyledWrapper } from '@/commons/components/layouts/StyledWrapper';
-import { apiLogin } from '../apis/apiLogin';
+import { apiLogin, apiUser } from '../apis/apiLogin';
 import { getUserActions } from '@/commons/contexts/UserInfoContext';
+import Container from '@/commons/components/Container';
+import LoginBox from '../components/LoginBox';
+
 const LoginContainer = ({ searchParams }) => {
   const router = useRouter();
   const { t } = useTranslation();
@@ -19,13 +21,7 @@ const LoginContainer = ({ searchParams }) => {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
 
-  const {
-    setIsLogin,
-    setIsAdmin,
-    setUserInfo,
-    setIsCounselor,
-    setIsProfessor,
-  } = getUserActions();
+  const { setIsLogin, setIsAdmin, setUserInfo } = getUserActions();
 
   const onSubmit = useCallback(
     (e) => {
@@ -36,8 +32,8 @@ const LoginContainer = ({ searchParams }) => {
 
       /* 필수 항목 검증 S */
       const requiredFields = {
-        email: t('이메일을_입력하세요.'),
-        password: t('비밀번호를_입력하세요.'),
+        email: t('이메일을_입력하세요'),
+        password: t('비밀번호를_입력하세요'),
       };
 
       for (const [field, message] of Object.entries(requiredFields)) {
@@ -58,19 +54,29 @@ const LoginContainer = ({ searchParams }) => {
       apiLogin(form)
         .then((res) => {
           const token = res.data;
-          cookies.save('token', token, { path: '/' });
+          const options = { path: '/' };
+          if (process.env.NODE_ENV !== 'development') {
+            // 실서버에서 동작중일때
+            const domain = process.env.NEXT_PUBLIC_DOMAIN;
+            options.domain = `*.${domain}`;
+          }
+          cookies.save('token', token, options);
+          console.log(form);
 
           (async () => {
             try {
               // 로그인 처리
               const user = await apiUser();
+              console.log('user', user);
+
+              if (user.deletedAt) {
+                setErrors({ global: ['탈퇴한 회원입니다.'] });
+                return;
+              }
 
               setIsLogin(true); // 로그인 상태
               setUserInfo(user);
-
               setIsAdmin(user.userType === 'ADMIN'); // 관리자 여부
-              setIsCounselor(user.userType === 'COUNSELOR');
-              setIsProfessor(user.userType === 'PROFESSOR');
 
               /**
                * 후속 처리 : 회원 전용 서비스 URL로 이동
@@ -91,17 +97,7 @@ const LoginContainer = ({ searchParams }) => {
           setErrors({ ..._errors });
         });
     },
-    [
-      form,
-      router,
-      searchParams,
-      setIsAdmin,
-      setIsLogin,
-      setUserInfo,
-      setIsCounselor,
-      setIsProfessor,
-      t,
-    ],
+    [form, router, searchParams, setIsAdmin, setIsLogin, setUserInfo, t],
   );
 
   const onChange = useCallback((e) => {
@@ -109,14 +105,16 @@ const LoginContainer = ({ searchParams }) => {
   }, []);
 
   return (
-    <StyledWrapper>
-      <LoginForm
-        form={form}
-        errors={errors}
-        onSubmit={onSubmit}
-        onChange={onChange}
-      />
-    </StyledWrapper>
+    <Container>
+      <LoginBox>
+        <LoginForm
+          form={form}
+          errors={errors}
+          onSubmit={onSubmit}
+          onChange={onChange}
+        />
+      </LoginBox>
+    </Container>
   );
 };
 
