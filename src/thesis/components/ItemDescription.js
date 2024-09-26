@@ -5,7 +5,7 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { FiDownload, FiEdit } from 'react-icons/fi'; // 아이콘 추가
 import { useRouter } from 'next/navigation';
 import ThesisDelete from './ThesisDelete';
-import { MdDeleteOutline } from 'react-icons/md';
+import { FaFileArrowDown } from 'react-icons/fa6';
 
 const Wrapper = styled.div`
   word-break: break-all;
@@ -117,6 +117,33 @@ const Wrapper = styled.div`
       right: 10px;
     }
   }
+
+  .filedown {
+    margin-top: 40px;
+    border-top: 1px solid ${({ theme }) => theme.colors.gray};
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    padding: 15px;
+
+    p {
+      margin: 0;
+    }
+    .fileList {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    li > a {
+      display: flex;
+      align-items: center;
+      > p {
+        width: 95%;
+      }
+
+      svg {
+        margin-right: 10px;
+      }
+    }
+  }
 `;
 
 const ApprovalSection = styled.div`
@@ -129,7 +156,7 @@ const ApprovalSection = styled.div`
   .approval-label {
     font-weight: bold;
     font-size: ${({ theme }) => theme.fontSizes.normal};
-    color: ${({ theme }) => theme.colors.navy};
+    color: black;
     margin-bottom: 10px;
   }
 
@@ -144,7 +171,6 @@ const ApprovalSection = styled.div`
       background-color: ${({ theme }) => theme.colors.lightGray};
       border: 2px solid ${({ theme }) => theme.colors.gray};
       border-radius: 20px;
-      cursor: pointer;
       transition: background-color 0.3s ease, border-color 0.3s ease;
 
       &.selected {
@@ -160,7 +186,6 @@ const ApprovalSection = styled.div`
       label {
         font-size: 0.9rem;
         font-weight: bold;
-        cursor: pointer;
       }
     }
   }
@@ -198,10 +223,6 @@ const ItemDescription = ({ item }) => {
 
   const handleEditClick = () => {
     router.push(`/thesis/update/${tid}`);
-  };
-
-  const handleDeleteClick = () => {
-    router.push(`/thesis/list/rejected`);
   };
 
   return (
@@ -293,11 +314,24 @@ const ItemDescription = ({ item }) => {
           </div>
         </ApprovalSection>
       </div>
+      <div className="filedown">
+        <p className="fileList">{t('첨부파일_목록')}</p>
+        {fileInfo?.length > 0 ? (
+          <ul className="download">
+            {fileInfo.map(({ downloadUrl, fileName }) => (
+              <li key={downloadUrl}>
+                <a href={downloadUrl}>
+                  <FaFileArrowDown />
+                  <p>{fileName}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          t('첨부파일이_없습니다')
+        )}
+      </div>
       <div className="btn-group">
-        <button className="download-btn">
-          <FiDownload className="icon" />
-          {t('다운로드')}
-        </button>
         <button className="edit-btn" onClick={handleEditClick}>
           <FiEdit className="icon" />
           {t('수정하기')}
