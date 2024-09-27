@@ -1,5 +1,5 @@
 import React from 'react';
-import UpdateContainer from '@/board/containers/UpdateContainer';
+import UpdateContainer from '@/note/containers/UpdateContainer';
 import AdminOnlyContainer from '@/member/containers/AdminOnlyContainer';
 const MemberUpdatePage = ({ params }) => {
   //const { seq } = params;
