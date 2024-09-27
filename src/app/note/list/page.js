@@ -1,3 +1,4 @@
+import React from 'react';
 import ListContainer from '@/note/containers/ListContainer';
 import AdminOnlyContainer from '@/member/containers/AdminOnlyContainer';
 const NotePostsPage = ({ searchParams }) => {
