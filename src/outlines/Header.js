@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import cookies from 'react-cookies';
 import { useTranslation } from 'react-i18next';
@@ -77,7 +77,6 @@ const Header = () => {
     actions: { setIsLogin, setIsAdmin, setUserInfo },
   } = getUserContext();
 
-  
   useEffect(() => {
     setLogin(isLogin);
   }, [isLogin]);
@@ -100,7 +99,7 @@ const Header = () => {
               </Icon>
               {t('사이트홈')}
             </a>
-            {isLogin ? (
+            {login ? (
               <>
                 {/* 로그인 상태 */}
                 {/* <span>
