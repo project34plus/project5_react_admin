@@ -15,13 +15,13 @@ const View = ({
   return (
     <>
       <ItemDescription item={item} />
-      <CommentForm
+      {/* <CommentForm
         form={form}
         onChange={onChange}
         onSubmit={onSubmit}
         errors={errors}
       />
-      <CommentItems comments={comments} onDelete={onDelete} />
+      <CommentItems comments={comments} onDelete={onDelete} /> */}
     </>
   );
 };

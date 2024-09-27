@@ -5,6 +5,7 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { FiDownload, FiEdit } from 'react-icons/fi'; // 아이콘 추가
 import { useRouter } from 'next/navigation';
 import ThesisDelete from './ThesisDelete';
+import { FaFileArrowDown } from 'react-icons/fa6';
 
 const Wrapper = styled.div`
   word-break: break-all;
@@ -73,6 +74,14 @@ const Wrapper = styled.div`
         background-color: ${({ theme }) => theme.colors.darkNavy};
       }
     }
+    .delete-btn {
+      background-color: ${({ theme }) => theme.colors.navy};
+      color: white;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.darkNavy};
+      }
+    }
   }
 
   .title {
@@ -101,10 +110,38 @@ const Wrapper = styled.div`
     margin-top: 5px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     .arrow {
       position: absolute;
       right: 10px;
+    }
+  }
+
+  .filedown {
+    margin-top: 40px;
+    border-top: 1px solid ${({ theme }) => theme.colors.gray};
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    padding: 15px;
+
+    p {
+      margin: 0;
+    }
+    .fileList {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    li > a {
+      display: flex;
+      align-items: center;
+      > p {
+        width: 95%;
+      }
+
+      svg {
+        margin-right: 10px;
+      }
     }
   }
 `;
@@ -119,7 +156,7 @@ const ApprovalSection = styled.div`
   .approval-label {
     font-weight: bold;
     font-size: ${({ theme }) => theme.fontSizes.normal};
-    color: ${({ theme }) => theme.colors.navy};
+    color: black;
     margin-bottom: 10px;
   }
 
@@ -134,7 +171,6 @@ const ApprovalSection = styled.div`
       background-color: ${({ theme }) => theme.colors.lightGray};
       border: 2px solid ${({ theme }) => theme.colors.gray};
       border-radius: 20px;
-      cursor: pointer;
       transition: background-color 0.3s ease, border-color 0.3s ease;
 
       &.selected {
@@ -147,15 +183,9 @@ const ApprovalSection = styled.div`
         display: none;
       }
 
-      &:hover {
-        background-color: ${({ theme }) => theme.colors.gray};
-        border-color: ${({ theme }) => theme.colors.navy};
-      }
-
       label {
         font-size: 0.9rem;
         font-weight: bold;
-        cursor: pointer;
       }
     }
   }
@@ -179,7 +209,10 @@ const ItemDescription = ({ item }) => {
     publisher,
     approvalStatus,
     keywords,
+    fileInfo,
   } = item;
+
+  console.log('file', fileInfo);
 
   const toggleInfo = (section) => {
     setIsOpen((prev) => ({
@@ -190,10 +223,6 @@ const ItemDescription = ({ item }) => {
 
   const handleEditClick = () => {
     router.push(`/thesis/update/${tid}`);
-  };
-
-  const handleDeleteClick = () => {
-    router.push(`/thesis/list/rejected`);
   };
 
   return (
@@ -245,16 +274,12 @@ const ItemDescription = ({ item }) => {
               className={`radio-button ${
                 approvalStatus === 'APPROVED' ? 'selected' : ''
               }`}
-              onClick={() => handleInputChange('approvalStatus', 'APPROVED')}
             >
               <input
                 type="radio"
                 name="approvalStatus"
                 value="APPROVED"
                 checked={approvalStatus === 'APPROVED'}
-                onChange={(e) =>
-                  handleInputChange('approvalStatus', 'APPROVED')
-                }
               />
               <label>승인</label>
             </div>
@@ -263,16 +288,12 @@ const ItemDescription = ({ item }) => {
               className={`radio-button ${
                 approvalStatus === 'REJECTED' ? 'selected' : ''
               }`}
-              onClick={() => handleInputChange('approvalStatus', 'REJECTED')}
             >
               <input
                 type="radio"
                 name="approvalStatus"
                 value="REJECTED"
                 checked={approvalStatus === 'REJECTED'}
-                onChange={(e) =>
-                  handleInputChange('approvalStatus', 'REJECTED')
-                }
               />
               <label>거절</label>
             </div>
@@ -281,31 +302,44 @@ const ItemDescription = ({ item }) => {
               className={`radio-button ${
                 approvalStatus === 'PENDING' ? 'selected' : ''
               }`}
-              onClick={() => handleInputChange('approvalStatus', 'PENDING')}
             >
               <input
                 type="radio"
                 name="approvalStatus"
                 value="PENDING"
                 checked={approvalStatus === 'PENDING'}
-                onChange={(e) =>
-                  handleInputChange('approvalStatus', 'PENDING')}
               />
               <label>대기</label>
             </div>
           </div>
         </ApprovalSection>
       </div>
+      <div className="filedown">
+        <p className="fileList">{t('첨부파일_목록')}</p>
+        {fileInfo?.length > 0 ? (
+          <ul className="download">
+            {fileInfo.map(({ downloadUrl, fileName }) => (
+              <li key={downloadUrl}>
+                <a href={downloadUrl}>
+                  <FaFileArrowDown />
+                  <p>{fileName}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          t('첨부파일이_없습니다')
+        )}
+      </div>
       <div className="btn-group">
-        <button className="download-btn">
-          <FiDownload className="icon" />
-          {t('다운로드')}
-        </button>
         <button className="edit-btn" onClick={handleEditClick}>
           <FiEdit className="icon" />
           {t('수정하기')}
         </button>
-        {approvalStatus === 'REJECTED' && <ThesisDelete tid={tid} />}
+
+        {approvalStatus === 'REJECTED' && (
+          <ThesisDelete tid={tid} className="delete-btn" />
+        )}
       </div>
       <div className="info2_wrap">
         <dl>

@@ -7,7 +7,7 @@ import { getCommonActions } from '@/commons/contexts/CommonContext';
 import LoginForm from '../components/LoginForm';
 import { apiLogin, apiUser } from '../apis/apiLogin';
 import { getUserActions } from '@/commons/contexts/UserInfoContext';
-import Container from '@/commons/components/Container';
+import Container2 from '@/commons/components/Container2';
 import LoginBox from '../components/LoginBox';
 
 const LoginContainer = ({ searchParams }) => {
@@ -84,7 +84,7 @@ const LoginContainer = ({ searchParams }) => {
                *
                */
               setForm({});
-              const redirectURL = searchParams.get('redirectUrl') || '/';
+              const redirectURL = searchParams?.redirectUrl || '/';
               router.replace(redirectURL);
             } catch (err) {
               console.error(err);
@@ -105,7 +105,7 @@ const LoginContainer = ({ searchParams }) => {
   }, []);
 
   return (
-    <Container>
+    <Container2>
       <LoginBox>
         <LoginForm
           form={form}
@@ -114,7 +114,7 @@ const LoginContainer = ({ searchParams }) => {
           onChange={onChange}
         />
       </LoginBox>
-    </Container>
+    </Container2>
   );
 };
 
