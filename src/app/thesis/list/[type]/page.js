@@ -1,5 +1,4 @@
-// thesis/list/[type]/page.js
-
+import React from 'react';
 import ApprovalContainer from '@/thesis/containers/ApprovalContainer';
 import UnApprovalContainer from '@/thesis/containers/UnApprovalContainer';
 import RejectedContainer from '@/thesis/containers/RejectedContainer';

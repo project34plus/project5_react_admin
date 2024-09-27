@@ -1,3 +1,4 @@
+import React from 'react';
 import LoginContainer from '@/member/containers/LoginContainer';
 import GuestOnlyContainer from '@/member/containers/GuestOnlyContainer';
 const LoginPage = ({ searchParams }) => {

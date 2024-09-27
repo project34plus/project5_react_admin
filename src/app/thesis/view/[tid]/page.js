@@ -1,9 +1,7 @@
 'use client';
 import React from 'react';
-import Head from 'next/head';
 import ThesisViewContainer from '@/thesis/containers/ThesisViewContainer';
 import Container from '@/commons/components/Container';
-import AdminOnlyContainer from '@/member/containers/AdminOnlyContainer';
 import styled from 'styled-components';
 
 // 제목을 꾸미기 위한 스타일링

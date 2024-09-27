@@ -1,3 +1,4 @@
+import React from 'react';
 import AdminOnlyContainer from '@/member/containers/AdminOnlyContainer';
 import ListContainer from '@/member/containers/ListContainer';
 const MemberListPage = ({ searchParams }) => {

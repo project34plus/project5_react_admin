@@ -1,4 +1,4 @@
-import UpdateContainer from '@/board/containers/UpdateContainer';
+import React from 'react';
 import AdminOnlyContainer from '@/member/containers/AdminOnlyContainer';
 const MemberViewPage = ({ params }) => {
   //const { seq } = params;
